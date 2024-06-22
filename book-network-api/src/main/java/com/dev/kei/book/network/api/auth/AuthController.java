@@ -16,7 +16,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> register(@Valid @RequestBody AuthRegisterRequest request) {
+    public ResponseEntity<?> register(@RequestBody @Valid AuthRegisterRequest request) {
         authService.register(request);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
