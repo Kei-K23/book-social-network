@@ -1,6 +1,7 @@
 package com.dev.kei.book.network.api.auth;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("auth")
 @Tag(name = "Authentication")
 @RequiredArgsConstructor
 public class AuthController {
@@ -16,7 +17,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> register(@RequestBody @Valid AuthRegisterRequest request) {
+    public ResponseEntity<?> register(@RequestBody @Valid AuthRegisterRequest request) throws MessagingException {
         authService.register(request);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }

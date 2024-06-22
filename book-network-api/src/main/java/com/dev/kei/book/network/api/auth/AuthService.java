@@ -1,12 +1,16 @@
 package com.dev.kei.book.network.api.auth;
 
+import com.dev.kei.book.network.api.email.EmailService;
+import com.dev.kei.book.network.api.email.EmailTemplateName;
 import com.dev.kei.book.network.api.jwt.Token;
 import com.dev.kei.book.network.api.jwt.TokenService;
 import com.dev.kei.book.network.api.role.Role;
 import com.dev.kei.book.network.api.role.RoleService;
 import com.dev.kei.book.network.api.user.User;
 import com.dev.kei.book.network.api.user.UserService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +25,11 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final TokenService tokenService;
+    private final EmailService emailService;
+    @Value("${application.security.jwt.account-activation-url}")
+    private String accountActivationUrl;
 
-
-    public void register(AuthRegisterRequest request) {
+    public void register(AuthRegisterRequest request) throws MessagingException {
         // Implement error handle logic
         Role userRole = roleService.findByName("USER");
 
@@ -42,10 +48,18 @@ public class AuthService {
         sendValidationEmail(user);
     }
 
-    private void sendValidationEmail(User user) {
+    private void sendValidationEmail(User user) throws MessagingException {
         String token = generateAndSaveActivationToken(user);
 
         // Send email
+        emailService.sendEmail(
+                user.getEmail(),
+                "Account activation",
+                user.getUsername(),
+                EmailTemplateName.ACCOUNT_ACTIVATION,
+                accountActivationUrl,
+                token
+        );
     }
 
     // Generate and save activation token

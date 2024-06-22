@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres_sql_bsn_db
+    url: jdbc:postgresql://localhost:5432/bsn
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -33,3 +33,4 @@ application:
     jwt:
       secret-key: "C423D4137E51C5E4BF47B715471B4"
       expiration: 8640000
+      account-activation-url: http://locahost:4200/account-activation
