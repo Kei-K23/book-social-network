@@ -1,0 +1,29 @@
+services:
+  postgres:
+    container_name: postgres_sql_bsn_db
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bsn
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - spring-dsn-api
+    restart: unless-stopped
+
+  mail-dev:
+    container_name: mail_dev_bsn
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+networks:
+  spring-dsn-api:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
