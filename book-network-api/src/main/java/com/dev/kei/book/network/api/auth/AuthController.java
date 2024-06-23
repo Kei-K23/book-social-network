@@ -27,4 +27,11 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthLoginRequest request) throws MessagingException {
         return ResponseEntity.status(HttpStatus.OK).body(authService.login(request));
     }
+
+    @GetMapping("/account-activate/{token}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> accountActivate(@PathVariable String token) throws MessagingException {
+        authService.accountActivate(token);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

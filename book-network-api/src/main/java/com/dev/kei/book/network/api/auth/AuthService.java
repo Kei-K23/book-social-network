@@ -84,6 +84,25 @@ public class AuthService {
                 .build();
     }
 
+    public void accountActivate(String token) throws MessagingException {
+        Token savedToken = tokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Invalid token"));
+        User user = savedToken.getUser();
+
+        // If token is expired, re-send the email
+        if (LocalDateTime.now().isAfter(savedToken.getExpiredAt())) {
+            sendValidationEmail(user);
+            throw new RuntimeException("Token expired! We re-send the account activation code to your email.");
+        }
+
+        // Activate user
+        user.setEnabled(true);
+        userRepository.save(user);
+
+        // Validate token
+        savedToken.setValidatedAt(LocalDateTime.now());
+        tokenRepository.save(savedToken);
+    }
+
     private void sendValidationEmail(User user) throws MessagingException {
         String token = generateAndSaveActivationToken(user);
 
