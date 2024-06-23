@@ -13,7 +13,6 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -28,13 +27,15 @@ public class EmailService {
                           EmailTemplateName emailTemplateName,
                           String confirmationUrl,
                           String activationCode) throws MessagingException {
+        // Template name is email HTML design that get from resources folder
         String templateName;
         if (emailTemplateName == null) {
-            templateName = "confirm-email";
+            templateName = "confirm_email";
         } else {
             templateName = emailTemplateName.name();
         }
 
+        // Create mail message
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(
                 mimeMessage,
@@ -42,11 +43,13 @@ public class EmailService {
                 StandardCharsets.UTF_8.name()
         );
 
+        // Set properties to use in mail template
         Map<String, Object> properties = new HashMap<>();
         properties.put("username", username);
         properties.put("confirmationUrl", confirmationUrl);
         properties.put("activationCode", activationCode);
 
+        // Create context for thymeleaf and pass properties values
         Context ctx = new Context();
         ctx.setVariables(properties);
 
@@ -58,6 +61,5 @@ public class EmailService {
         helper.setText(template, true);
 
         javaMailSender.send(mimeMessage);
-
     }
 }

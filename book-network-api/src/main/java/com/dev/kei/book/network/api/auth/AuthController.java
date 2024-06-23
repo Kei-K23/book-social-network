@@ -21,4 +21,10 @@ public class AuthController {
         authService.register(request);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthLoginRequest request) throws MessagingException {
+        return ResponseEntity.status(HttpStatus.OK).body(authService.login(request));
+    }
 }

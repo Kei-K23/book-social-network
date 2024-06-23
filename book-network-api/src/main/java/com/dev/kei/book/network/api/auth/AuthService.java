@@ -3,32 +3,42 @@ package com.dev.kei.book.network.api.auth;
 import com.dev.kei.book.network.api.email.EmailService;
 import com.dev.kei.book.network.api.email.EmailTemplateName;
 import com.dev.kei.book.network.api.jwt.Token;
-import com.dev.kei.book.network.api.jwt.TokenService;
+import com.dev.kei.book.network.api.jwt.TokenRepository;
 import com.dev.kei.book.network.api.role.Role;
 import com.dev.kei.book.network.api.role.RoleService;
+import com.dev.kei.book.network.api.security.JwtService;
 import com.dev.kei.book.network.api.user.User;
-import com.dev.kei.book.network.api.user.UserService;
+import com.dev.kei.book.network.api.user.UserRepository;
 import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
-    private final TokenService tokenService;
+    private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
+    private final JwtService jwtService;
     private final EmailService emailService;
+    private final AuthenticationManager authenticationManager;
+
     @Value("${application.security.jwt.account-activation-url}")
     private String accountActivationUrl;
 
+    @Transactional
     public void register(AuthRegisterRequest request) throws MessagingException {
         // Implement error handle logic
         Role userRole = roleService.findByName("USER");
@@ -43,9 +53,35 @@ public class AuthService {
                 .build();
 
         // Save user to database
-        userService.save(user);
+        userRepository.save(user);
         // Send user account validation email
         sendValidationEmail(user);
+    }
+
+    @Transactional
+    public AuthResponse login(AuthLoginRequest request) {
+        Map<String, Object> claims = new HashMap<>();
+
+        // Authenticate user
+        var auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+
+        var user = ((User) auth.getPrincipal());
+
+        // Add login user fullName to claim to use in token
+        claims.put("fullName", user.getFullName());
+
+        // Generate token
+        String token = jwtService.generateToken(claims, user);
+
+        // Build and return auth response
+        return AuthResponse.builder()
+                .token(token)
+                .build();
     }
 
     private void sendValidationEmail(User user) throws MessagingException {
@@ -67,13 +103,14 @@ public class AuthService {
         String token = generateActivationToken(6);
 
         // Token save to database
-        tokenService.save(Token.builder()
+        tokenRepository.save(Token.builder()
                 .user(user)
                 .token(token)
                 .createdAt(LocalDateTime.now())
                 .expiredAt(LocalDateTime.now().plusMinutes(10))
                 .user(user)
                 .build());
+
         return token;
     }
 
