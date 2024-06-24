@@ -1,5 +1,6 @@
 package com.dev.kei.book.network.api.user;
 
+import com.dev.kei.book.network.api.book.Book;
 import com.dev.kei.book.network.api.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import transitionHistory.BookTransitionHistory;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -40,6 +42,12 @@ public class User implements UserDetails, Principal {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
+    @OneToMany(mappedBy = "user")
+    private List<BookTransitionHistory> bookTransitionHistories;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

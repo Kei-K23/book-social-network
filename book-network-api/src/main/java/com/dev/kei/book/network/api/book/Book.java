@@ -1,25 +1,24 @@
 package com.dev.kei.book.network.api.book;
 
+import com.dev.kei.book.network.api.common.BaseEntity;
+import com.dev.kei.book.network.api.feedback.Feedback;
+import com.dev.kei.book.network.api.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.experimental.SuperBuilder;
+import transitionHistory.BookTransitionHistory;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
+@SuperBuilder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_books")
-@EntityListeners(AuditingEntityListener.class)
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Book extends BaseEntity {
     private String title;
     private String author;
     private String isbn;
@@ -28,16 +27,13 @@ public class Book {
     private boolean archived;
     private boolean shareable;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedAt;
-    @CreatedBy
-    @Column(nullable = false, updatable = false)
-    private Long createdBy;
-    @LastModifiedBy
-    @Column(insertable = false)
-    private Long lastModifiedBy;
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
+    @OneToMany(mappedBy = "book")
+    private List<Feedback> feedbacks;
+
+    @OneToMany(mappedBy = "book")
+    private List<BookTransitionHistory> bookTransitionHistories;
 }
