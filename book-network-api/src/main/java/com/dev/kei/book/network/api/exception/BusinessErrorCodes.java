@@ -1,6 +1,5 @@
 package com.dev.kei.book.network.api.exception;
 
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 public enum BusinessErrorCodes {
