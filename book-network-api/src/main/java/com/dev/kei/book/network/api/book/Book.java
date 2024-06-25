@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import transitionHistory.BookTransitionHistory;
+import com.dev.kei.book.network.api.transitionHistory.BookTransitionHistory;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package transitionHistory;
+package com.dev.kei.book.network.api.transitionHistory;
 
 import com.dev.kei.book.network.api.book.Book;
 import com.dev.kei.book.network.api.common.BaseEntity;
