@@ -6,6 +6,7 @@ import com.dev.kei.book.network.api.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import com.dev.kei.book.network.api.transitionHistory.BookTransitionHistory;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @SuperBuilder
 @Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

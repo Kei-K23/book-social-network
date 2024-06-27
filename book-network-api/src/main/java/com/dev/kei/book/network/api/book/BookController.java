@@ -1,14 +1,12 @@
 package com.dev.kei.book.network.api.book;
 
+import com.dev.kei.book.network.api.common.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("books")
@@ -23,5 +21,19 @@ public class BookController {
             Authentication authentication
     ) {
         return ResponseEntity.ok(bookService.save(request, authentication));
+    }
+
+    @GetMapping("/{book-id}")
+    public ResponseEntity<BookResponse> getBookById(
+            @PathVariable("book-id") Long bookId
+    ) {
+        return ResponseEntity.ok(bookService.getBookById(bookId));
+    }
+
+    @GetMapping
+    public ResponseEntity<PageResponse<BookResponse>> getBookById(
+            @PathVariable("book-id") Long bookId
+    ) {
+        return ResponseEntity.ok(bookService.getBookById(bookId));
     }
 }
