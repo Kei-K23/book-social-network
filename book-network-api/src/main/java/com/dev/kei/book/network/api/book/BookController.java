@@ -31,9 +31,11 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<PageResponse<BookResponse>> getBookById(
-            @PathVariable("book-id") Long bookId
+    public ResponseEntity<PageResponse<BookResponse>> getAllBooks(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "0", required = false) int size,
+            Authentication authentication
     ) {
-        return ResponseEntity.ok(bookService.getBookById(bookId));
+        return ResponseEntity.ok(bookService.getAllBooks(page, size, authentication));
     }
 }
