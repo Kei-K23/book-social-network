@@ -1,6 +1,7 @@
 package com.dev.kei.book.network.api.book;
 
 import com.dev.kei.book.network.api.common.PageResponse;
+import com.dev.kei.book.network.api.exceptionHandler.OperationNotPermittedException;
 import com.dev.kei.book.network.api.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -79,5 +81,22 @@ public class BookService {
                 books.isFirst(),
                 books.isLast()
         );
+    }
+
+    public Long updateShareableStatus(Long bookId, Authentication authentication) {
+        // Get authenticated user
+        User user = (User) authentication.getPrincipal();
+        // Find book to update shareable status
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + bookId + " to update"));
+
+        // Check book is owned by authenticated user
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("User can only update shareable status of their own book");
+        }
+
+        // Update shareable status to database
+        book.setShareable(!book.isShareable());
+        // Return updated book id
+        return bookRepository.save(book).getId();
     }
 }

@@ -47,4 +47,12 @@ public class BookController {
     ) {
         return ResponseEntity.ok(bookService.getAllBooksByOwner(page, size, authentication));
     }
+
+    @PatchMapping("/shareable/{book-id}")
+    public Long updateShareableStatus(
+            @PathVariable("book-id") Long bookId,
+            Authentication authentication
+    ) {
+        return ResponseEntity.ok(bookService.updateShareableStatus(bookId, authentication));
+    }
 }

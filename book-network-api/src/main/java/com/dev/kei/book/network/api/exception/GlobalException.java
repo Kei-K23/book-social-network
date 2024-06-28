@@ -1,5 +1,6 @@
 package com.dev.kei.book.network.api.exception;
 
+import com.dev.kei.book.network.api.exceptionHandler.OperationNotPermittedException;
 import jakarta.mail.MessagingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +66,17 @@ public class GlobalException {
                         .businessErrorCode(BusinessErrorCodes.ARGUMENT_INVALID.getCode())
                         .businessErrorMessage(BusinessErrorCodes.ARGUMENT_INVALID.getDescription())
                         .validationErrors(errors)
+                        .build());
+    }
+
+    @ExceptionHandler(OperationNotPermittedException.class)
+    public ResponseEntity<ExceptionResponse> handleException(OperationNotPermittedException exp) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(ExceptionResponse.builder()
+                        .businessErrorCode(BusinessErrorCodes.FORBIDDEN.getCode())
+                        .businessErrorMessage(BusinessErrorCodes.FORBIDDEN.getDescription())
+                        .error(exp.getMessage())
                         .build());
     }
 

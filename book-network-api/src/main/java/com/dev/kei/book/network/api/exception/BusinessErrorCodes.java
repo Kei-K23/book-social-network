@@ -14,6 +14,7 @@ public enum BusinessErrorCodes {
     INVALID_TOKEN(1006, HttpStatus.FORBIDDEN, "Receive invalid token to authenticate the user"),
     INTERNAL_SERVER_ERROR(1007, HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error"),
     ARGUMENT_INVALID(1008, HttpStatus.BAD_REQUEST, "Request arguments are invalid"),
+    FORBIDDEN(1009, HttpStatus.FORBIDDEN, "User have no permission to perform task"),
     ;
     private final int code;
     private final HttpStatus httpStatus;
