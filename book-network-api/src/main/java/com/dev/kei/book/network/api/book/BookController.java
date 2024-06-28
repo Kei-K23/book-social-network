@@ -49,6 +49,15 @@ public class BookController {
         return ResponseEntity.ok(bookService.getAllBooksByOwner(page, size, authentication));
     }
 
+    @GetMapping("/borrowed")
+    public ResponseEntity<PageResponse<BookTransactionResponse>> getAllBorrowedBooksByOwner(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "0", required = false) int size,
+            Authentication authentication
+    ) {
+        return ResponseEntity.ok(bookService.getAllBorrowedBooksByOwner(page, size, authentication));
+    }
+
     @PatchMapping("/shareable/{book-id}")
     public ResponseEntity<Long> updateShareableStatus(
             @PathVariable("book-id") Long bookId,

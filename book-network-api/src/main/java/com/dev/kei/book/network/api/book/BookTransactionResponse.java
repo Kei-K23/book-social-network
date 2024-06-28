@@ -9,15 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookResponse {
+public class BookTransactionResponse {
     private Long id;
     private String title;
     private String author;
     private String isbn;
-    private String synopsis;
-    private byte[] coverImage;
-    private boolean archived;
-    private boolean shareable;
-    private String owner;
     private double rate;
+    private boolean returned;
+    private boolean returnApprove;
 }

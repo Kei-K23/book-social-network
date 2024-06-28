@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import com.dev.kei.book.network.api.transitionHistory.BookTransitionHistory;
+import com.dev.kei.book.network.api.transactionHistory.BookTransactionHistory;
 
 import java.util.List;
 
@@ -37,5 +37,17 @@ public class Book extends BaseEntity {
     private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "book")
-    private List<BookTransitionHistory> bookTransitionHistories;
+    private List<BookTransactionHistory> bookTransitionHistories;
+
+    @Transient
+    public double getRates() {
+        // Check feedback have in this book
+        if (feedbacks == null || feedbacks.isEmpty()) {
+            return 0.0;
+        }
+        
+        // Calculate rates
+        var rates = feedbacks.stream().mapToDouble(Feedback::getRate).average().orElse(0.0);
+        return Math.round(rates * 10.0) / 10.0;
+    }
 }

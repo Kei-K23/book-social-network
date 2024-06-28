@@ -2,6 +2,8 @@ package com.dev.kei.book.network.api.book;
 
 import com.dev.kei.book.network.api.common.PageResponse;
 import com.dev.kei.book.network.api.exceptionHandler.OperationNotPermittedException;
+import com.dev.kei.book.network.api.transactionHistory.BookTransactionHistory;
+import com.dev.kei.book.network.api.transactionHistory.BookTransactionRepository;
 import com.dev.kei.book.network.api.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.Objects;
 public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final BookTransactionRepository bookTransactionRepository;
 
     public Long save(BookRequest request, Authentication authentication) {
         // Get authenticated user from request authentication context
@@ -115,5 +118,25 @@ public class BookService {
         book.setArchived(!book.isArchived());
         // Return updated book id
         return bookRepository.save(book).getId();
+    }
+
+    public PageResponse<BookTransactionResponse> getAllBorrowedBooksByOwner(int page, int size, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<BookTransactionHistory> bookTransactionHistories = bookTransactionRepository.findAllBorrowedBooksByUserId(pageable, user.getId());
+
+        // Map to book transaction lists to book transaction response
+        List<BookTransactionResponse> bookTransactionResponses = bookTransactionHistories.stream().map(bookMapper::toBookTransactionResponse).toList();
+
+        // Return PageResponse for book transaction response
+        return new PageResponse<>(
+                bookTransactionResponses,
+                bookTransactionHistories.getNumber(),
+                bookTransactionHistories.getSize(),
+                bookTransactionHistories.getTotalElements(),
+                bookTransactionHistories.getTotalPages(),
+                bookTransactionHistories.isFirst(),
+                bookTransactionHistories.isLast()
+        );
     }
 }
