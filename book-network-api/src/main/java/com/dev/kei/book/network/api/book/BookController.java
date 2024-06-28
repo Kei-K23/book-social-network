@@ -4,6 +4,7 @@ import com.dev.kei.book.network.api.common.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class BookController {
             @Valid @RequestBody BookRequest request,
             Authentication authentication
     ) {
-        return ResponseEntity.ok(bookService.save(request, authentication));
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(request, authentication));
     }
 
     @GetMapping("/{book-id}")
@@ -49,10 +50,18 @@ public class BookController {
     }
 
     @PatchMapping("/shareable/{book-id}")
-    public Long updateShareableStatus(
+    public ResponseEntity<Long> updateShareableStatus(
             @PathVariable("book-id") Long bookId,
             Authentication authentication
     ) {
         return ResponseEntity.ok(bookService.updateShareableStatus(bookId, authentication));
+    }
+
+    @PatchMapping("/archived/{book-id}")
+    public ResponseEntity<Long> updateArchivedStatus(
+            @PathVariable("book-id") Long bookId,
+            Authentication authentication
+    ) {
+        return ResponseEntity.ok(bookService.updateArchivedStatus(bookId, authentication));
     }
 }

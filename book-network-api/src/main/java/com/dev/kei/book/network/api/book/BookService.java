@@ -99,4 +99,21 @@ public class BookService {
         // Return updated book id
         return bookRepository.save(book).getId();
     }
+
+    public Long updateArchivedStatus(Long bookId, Authentication authentication) {
+        // Get authenticated user
+        User user = (User) authentication.getPrincipal();
+        // Find book to update archived status
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + bookId + " to update"));
+
+        // Check book is owned by authenticated user
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("User can only update archived status of their own book");
+        }
+
+        // Update archived status to database
+        book.setArchived(!book.isArchived());
+        // Return updated book id
+        return bookRepository.save(book).getId();
+    }
 }
