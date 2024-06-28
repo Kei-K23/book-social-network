@@ -24,6 +24,30 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(request, authentication));
     }
 
+    @PostMapping("/borrow/{book-id}")
+    public ResponseEntity<Long> borrowBook(
+            @PathVariable("book-id") Long bookId,
+            Authentication authentication
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.borrowBook(bookId, authentication));
+    }
+
+    @PostMapping("/borrow/return/{book-id}")
+    public ResponseEntity<Long> returnBorrowedBook(
+            @PathVariable("book-id") Long bookId,
+            Authentication authentication
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(bookService.returnBorrowedBook(bookId, authentication));
+    }
+
+    @PostMapping("/borrow/return/approve/{book-id}")
+    public ResponseEntity<Long> approveReturnedBorrowedBook(
+            @PathVariable("book-id") Long bookId,
+            Authentication authentication
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(bookService.approveReturnedBorrowedBook(bookId, authentication));
+    }
+
     @GetMapping("/{book-id}")
     public ResponseEntity<BookResponse> getBookById(
             @PathVariable("book-id") Long bookId
@@ -56,6 +80,15 @@ public class BookController {
             Authentication authentication
     ) {
         return ResponseEntity.ok(bookService.getAllBorrowedBooksByOwner(page, size, authentication));
+    }
+
+    @GetMapping("/returned")
+    public ResponseEntity<PageResponse<BookTransactionResponse>> getAllReturnedBooksByOwner(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "0", required = false) int size,
+            Authentication authentication
+    ) {
+        return ResponseEntity.ok(bookService.getAllReturnedBooksByOwner(page, size, authentication));
     }
 
     @PatchMapping("/shareable/{book-id}")
