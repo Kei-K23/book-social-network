@@ -209,7 +209,7 @@ public class BookService {
 
         // Check book is owned by authenticated user
         if (Objects.equals(book.getOwner().getId(), user.getId())) {
-            throw new OperationNotPermittedException("User can not return your own book");
+            throw new OperationNotPermittedException("User can not return their own book");
         }
 
         // Check user actually borrowed the book
@@ -232,11 +232,11 @@ public class BookService {
 
         // Check book is owned by authenticated user
         if (Objects.equals(book.getOwner().getId(), user.getId())) {
-            throw new OperationNotPermittedException("User can not return your own book");
+            throw new OperationNotPermittedException("User can not return their own book");
         }
 
         // Check user actually borrowed the book
-        Optional<BookTransactionHistory> bookTransactionHistory = bookTransactionRepository.findReturnedBookByBookIdAndUserId(bookId, user.getId());
+        Optional<BookTransactionHistory> bookTransactionHistory = bookTransactionRepository.findByBookIdAndOwnerId(bookId, user.getId());
         if (bookTransactionHistory.isEmpty()) {
             throw new OperationNotPermittedException("The book is not returned yet. You cannot approve its return");
         }
