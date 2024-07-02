@@ -20,20 +20,21 @@ public class FileStorageService {
     @Value("${application.security.file.upload-dir}")
     private String uploadDir;
 
-    // Check bookId is actually need for this method
     public String saveFile(
             @Nonnull MultipartFile file,
-            @Nonnull Long bookId,
             @Nonnull Long userId) {
+
+        // Setup file upload sub path with user id
         final String fileUploadSubPath = "users" + File.separator + userId;
         return uploadFile(file, fileUploadSubPath);
     }
 
     private String uploadFile(@Nonnull MultipartFile file, @Nonnull String fileUploadSubPath) {
+        // Setup complete upload folder path
         final String completeUploadPath = uploadDir + File.separator + fileUploadSubPath;
 
         File targetFolder = new File(completeUploadPath);
-
+        // Create folder if not exists
         if (!targetFolder.exists()) {
             boolean folderCreated = targetFolder.mkdirs();
             if (!folderCreated) {
@@ -52,8 +53,10 @@ public class FileStorageService {
         Path targetPath = Paths.get(targetFilePath);
 
         try {
+            // Write to file system to save the file or image to targeted path
             Files.write(targetPath, file.getBytes());
             log.info("File saved to: {}", targetFilePath);
+            // Return saved file path
             return targetFilePath;
         } catch (IOException e) {
             log.error("File was not saved", e);

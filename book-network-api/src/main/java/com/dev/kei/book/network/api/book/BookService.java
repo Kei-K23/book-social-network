@@ -254,14 +254,16 @@ public class BookService {
         // Get authenticated user
         User user = (User) authentication.getPrincipal();
         // Find book to return
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + bookId + " to return"));
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + bookId));
 
         // Check book is owned by authenticated user
         if (!Objects.equals(book.getOwner().getId(), user.getId())) {
             throw new OperationNotPermittedException("Cannot upload cover image for other user's book");
         }
 
-        var coverImageFile = fileStorageService.saveFile(file, bookId, user.getId());
+        // Save image to file system
+        var coverImageFile = fileStorageService.saveFile(file, user.getId());
 
         // Save book cover image to database
         book.setCoverImage(coverImageFile);
