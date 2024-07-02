@@ -1,6 +1,7 @@
 package com.dev.kei.book.network.api.book;
 
 import com.dev.kei.book.network.api.common.PageResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("books")
@@ -105,5 +107,17 @@ public class BookController {
             Authentication authentication
     ) {
         return ResponseEntity.ok(bookService.updateArchivedStatus(bookId, authentication));
+    }
+
+    @PostMapping(value = "/cover/{book-id}", consumes = "multipart/form-data")
+    public ResponseEntity<?> uploadBookCover(
+            @PathVariable(name = "book-id") Long bookId,
+            @Parameter()
+            @RequestPart(name = "file")
+            MultipartFile file,
+            Authentication authentication
+    ) {
+        bookService.uploadBookCover(bookId, file, authentication);
+        return ResponseEntity.accepted().build();
     }
 }

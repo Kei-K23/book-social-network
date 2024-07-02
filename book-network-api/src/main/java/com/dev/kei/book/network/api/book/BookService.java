@@ -2,6 +2,7 @@ package com.dev.kei.book.network.api.book;
 
 import com.dev.kei.book.network.api.common.PageResponse;
 import com.dev.kei.book.network.api.exceptionHandler.OperationNotPermittedException;
+import com.dev.kei.book.network.api.file.FileStorageService;
 import com.dev.kei.book.network.api.transactionHistory.BookTransactionHistory;
 import com.dev.kei.book.network.api.transactionHistory.BookTransactionRepository;
 import com.dev.kei.book.network.api.user.User;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +26,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final BookTransactionRepository bookTransactionRepository;
+    private final FileStorageService fileStorageService;
 
     public Long save(BookRequest request, Authentication authentication) {
         // Get authenticated user from request authentication context
@@ -245,5 +248,23 @@ public class BookService {
         bookTransactionHistory.get().setReturnApprove(true);
         // Return book transaction history id
         return bookTransactionRepository.save(bookTransactionHistory.get()).getId();
+    }
+
+    public void uploadBookCover(Long bookId, MultipartFile file, Authentication authentication) {
+        // Get authenticated user
+        User user = (User) authentication.getPrincipal();
+        // Find book to return
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + bookId + " to return"));
+
+        // Check book is owned by authenticated user
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("Cannot upload cover image for other user's book");
+        }
+
+        var coverImageFile = fileStorageService.saveFile(file, bookId, user.getId());
+
+        // Save book cover image to database
+        book.setCoverImage(coverImageFile);
+        bookRepository.save(book);
     }
 }
