@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("feedbacks")
+@RequestMapping("/feedbacks")
 @RequiredArgsConstructor
 @Tag(name = "Feedbacks")
 public class FeedbackController {
