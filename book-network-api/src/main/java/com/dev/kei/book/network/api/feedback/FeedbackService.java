@@ -70,4 +70,21 @@ public class FeedbackService {
                 feedbacks.isLast()
         );
     }
+
+    public Long updateComment(Long feedbackId, FeedBackCommentUpdateRequest request, Authentication authentication) {
+        // Check feedback exist or not
+        Feedback feedback = feedbackRepository.findById(feedbackId).orElseThrow(() -> new EntityNotFoundException("Feedback not found with id: " + feedbackId));
+
+        // Get user
+        User user = (User) authentication.getPrincipal();
+
+        // Check feedback is created by login user
+        if (!Objects.equals(feedback.getCreatedBy(), user.getId())) {
+            throw new OperationNotPermittedException("User can only update comment of their own feedback");
+        }
+        // Update comment
+        feedback.setComment(request.getComment());
+        // Save changes to database and return updated id
+        return feedbackRepository.save(feedback).getId();
+    }
 }

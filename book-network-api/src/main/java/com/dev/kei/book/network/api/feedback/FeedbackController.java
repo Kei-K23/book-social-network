@@ -33,4 +33,13 @@ public class FeedbackController {
     ) {
         return ResponseEntity.ok(feedbackService.getAllFeedbacksByBookId(bookId, page, size, authentication));
     }
+
+    @PatchMapping("/{feedback-id}")
+    public ResponseEntity<Long> updateComment(
+            @PathVariable("feedback-id") Long feedbackId,
+            @Valid @RequestBody FeedBackCommentUpdateRequest request,
+            Authentication authentication
+    ) {
+        return ResponseEntity.ok(feedbackService.updateComment(feedbackId, request,authentication));
+    }
 }
