@@ -34,7 +34,7 @@ public interface BookTransactionRepository extends JpaRepository<BookTransaction
             SELECT (COUNT (*) > 0) AS is_borrowed
             FROM BookTransactionHistory bh
             WHERE bh.book.id = :bookId
-            AND bh.user.id = :id
+            AND bh.user.id = :userId
             AND bh.returnApprove = false
             """
     )
