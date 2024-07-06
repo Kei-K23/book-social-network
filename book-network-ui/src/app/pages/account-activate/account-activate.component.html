@@ -1,14 +1,22 @@
-<div *ngIf="submitted else codeForm">
-  <div *ngIf="isOk else activationError">
-    <h2>Account activation successful</h2>
-    <p>{{ message }}</p>
-    <button (click)="redirectToLogin()">Go to Login</button>
+<div *ngIf="submitted else codeForm" class="h-full flex flex-col justify-center items-center">
+  <div *ngIf="isOk else activationError" class="h-full flex flex-col justify-center items-center">
+    <div class="card bg-neutral text-neutral-content w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px]">
+      <div class="card-body items-center text-center">
+        <h2 class="card-title mb-3 text-2xl">Account activation successful</h2>
+        <p>{{ message }}</p>
+        <button (click)="redirectToLogin()" class="btn btn-primary">Go to Login</button>
+      </div>
+    </div>
   </div>
   <ng-template #activationError>
-    <div>
-      <h2>Account activation fail</h2>
-      <p>{{ message }}</p>
-      <button (click)="submitted = false">Try again</button>
+    <div class="h-full flex flex-col justify-center items-center">
+      <div class="card bg-neutral text-neutral-content w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px]">
+        <div class="card-body items-center text-center">
+          <h2 class="card-title mb-3 text-red-400 text-2xl">Account activation fail!</h2>
+          <p>{{ message }}</p>
+          <button (click)="submitted = false" class="btn btn-primary">Try again</button>
+        </div>
+      </div>
     </div>
   </ng-template>
 </div>
@@ -17,13 +25,14 @@
   <div class="h-full flex flex-col justify-center items-center">
     <div class="card bg-neutral text-neutral-content w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px]">
       <div class="card-body items-center text-center">
-        <h2 class="card-title mb-3">Account activate</h2>
-        <p>Activate your account to get full features that give by BSN.</p>
+        <h2 class="card-title mb-3 text-2xl">Account activate</h2>
+        <p class="mb-4">Activate your account to get full features that give by BSN.</p>
         <code-input
           [isCodeHidden]="false"
           [codeLength]="6"
           [code]="'number'"
           (codeCompleted)="onCodeCompleted($event)"
+          class="text-gray-300"
         />
       </div>
     </div>

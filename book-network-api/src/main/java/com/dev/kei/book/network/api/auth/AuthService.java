@@ -35,7 +35,7 @@ public class AuthService {
     private final EmailService emailService;
     private final AuthenticationManager authenticationManager;
 
-    @Value("${application.security.mailing.account-activation-url}")
+    @Value("${application.mailing.account-activation-url}")
     private String accountActivationUrl;
 
     @Transactional

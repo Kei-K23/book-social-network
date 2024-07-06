@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 @Slf4j
 @RequiredArgsConstructor
 public class FileStorageService {
-    @Value("${application.security.file.upload-dir}")
+    @Value("${application.file.upload-dir}")
     private String uploadDir;
 
     public String saveFile(

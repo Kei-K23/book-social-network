@@ -42,7 +42,7 @@ application:
     jwt:
       secret-key: "60141a2d9ce27186ef8299633c6f81db11b1348ae2c4ac1be6f68b3d7bebe6e6970ff858dcebfae242e802b10e2e3763d87a3a304cf72d1db5281e75ed7f3dcb300a89b2eb04f6d73f4e5c2f83710a49e5c4fb0837338212c8f27e0de6fd096ab0c5b6507652506e784801ac459835fbd0e6532818821a84772ac821f217fd10ceb87d68f31425ffeb738264f514027eba3f2ed1b7dd2a8e74a6f938eda3ea60676d70556696adeeb549120990c9b36ce951a618c2c0b032439f06f20782829453b4ae38ecc9e4fa4993f40917872069ac8b80861ea32ea84caf5101bc3d6f38810f13bba9f47a296201cd3a047fbc167b951d286b70b7c84131581b551349"
       expiration: 8640000
-    mailing:
-      account-activation-url: http://locahost:4200/account-activation
-    file:
-      upload-dir: ./uploads
+  mailing:
+    account-activation-url: http://localhost:4200/account-activate
+  file:
+    upload-dir: ./uploads
