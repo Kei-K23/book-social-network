@@ -4,7 +4,8 @@ import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../services/services/authentication.service";
 import {NgForOf, NgIf} from "@angular/common";
-import {TokenService} from "../../services/token/token.service";
+import {LocalStorageService} from "../../services/localStorage/local-storage.service";
+import {KEYS} from "../../constants/keys";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ import {TokenService} from "../../services/token/token.service";
     NgForOf
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   authRequest : AuthLoginRequest = {email: "", password: ""};
@@ -24,7 +25,7 @@ export class LoginComponent {
   constructor(
     private router : Router,
     private authService : AuthenticationService,
-    private tokenService: TokenService
+    private localStorageService : LocalStorageService
   ) {
   }
 
@@ -38,7 +39,7 @@ export class LoginComponent {
     ).subscribe({
       next: res => {
        // Save the JWT token in local storage
-        this.tokenService.token = res.token as string;
+        this.localStorageService.setLocalStorage(KEYS.JWT_KEY, res.token as string);
        // Navigate to main screen
        this.router.navigate(['books']);
       },
