@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 border-b border-gray-700 px-10">
+<div class="navbar bg-base-100 shadow shadow-gray-300 px-10">
   <div class="flex-1">
     <a [routerLink]="['/books']" class="btn btn-ghost text-xl">BSN</a>
   </div>
@@ -6,15 +6,12 @@
     <ul class="menu menu-horizontal px-1">
       <li><a [routerLink]="['/books']" [routerLinkActive]="'active-link'" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
       <li><a [routerLink]="['/books/my-books']" [routerLinkActive]="'active-link'" [routerLinkActiveOptions]="{exact: true}">My Books</a></li>
-      <li><a [routerLink]="['/books/waiting']" [routerLinkActive]="'active-link'" [routerLinkActiveOptions]="{exact: true}">Waiting</a></li>
+      <li><a [routerLink]="['/books/favorite']" [routerLinkActive]="'active-link'" [routerLinkActiveOptions]="{exact: true}">Favorite</a></li>
       <li><a [routerLink]="['/books/returned']" [routerLinkActive]="'active-link'" [routerLinkActiveOptions]="{exact: true}">Returned</a></li>
       <li><a [routerLink]="['/books/borrowed']" [routerLinkActive]="'active-link'" [routerLinkActiveOptions]="{exact: true}">Borrowed</a></li>
     </ul>
   </div>
   <div class="flex-none gap-2">
-    <div class="form-control">
-      <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
-    </div>
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">

@@ -1,4 +1,8 @@
-<h3>Books lists</h3>
-<div>
-  <span *ngFor="let book of bookResponse.content">{{ book.title }}</span>
+<h3 class="text-center text-2xl my-8">All available books in BSN</h3>
+<div class="form-control flex justify-center items-center mb-10">
+  <input type="text" placeholder="Search" class="input input-bordered w-[230px] md:w-[300px]" />
+</div>
+
+<div class="grid grid-cols-4 gap-8 px-10">
+  <app-book-card [book]="book" *ngFor="let book of bookResponse.content" />
 </div>

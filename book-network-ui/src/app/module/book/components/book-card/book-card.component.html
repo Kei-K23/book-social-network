@@ -1,0 +1,44 @@
+  <div class="card bg-base-100 shadow-xl" >
+    <figure>
+      <img
+        class="w-full h-[260px]"
+        [src]="bookCover"
+        alt="Book Cover Image" />
+    </figure>
+    <div class="card-body">
+      <h2 class="card-title line-clamp-1">{{ book.title }}</h2>
+      <h3 class="truncate">Author: {{ book.author }}</h3>
+      <h3 class="truncate">ISBN: {{ book.isbn }}</h3>
+      <h3 class="truncate">Owner: {{ book.owner }}</h3>
+      <hr />
+      <p class="line-clamp-3">{{ book.synopsis }}</p>
+
+      <div class="flex items-center justify-between">
+        <div>
+          5 stars
+        </div>
+        <div class="flex items-center gap-3" *ngIf="!manage">
+          <div class="tooltip" data-tip="Show detail">
+            <i (click)="onShowDetail()" class="cursor-pointer fas fa-circle-info text-[20px] text-blue-600"></i>
+          </div>
+          <div class="tooltip" data-tip="Borrow">
+            <i (click)="onBorrow()" class="cursor-pointer fas fa-list-check text-[20px] text-blue-600"></i>
+          </div>
+          <div class="tooltip" data-tip="Favorite">
+            <i (click)="onFavorite()" class="cursor-pointer fas fa-heart text-[20px] text-red-600"></i>
+          </div>
+        </div>
+        <div class="flex items-center gap-3" *ngIf="manage">
+          <div class="tooltip" data-tip="Edit">
+            <i (click)="onEdit()" class="fas fa-edit text-[20px] text-blue-600"></i>
+          </div>
+          <div class="tooltip" data-tip="Share">
+            <i (click)="onShare()" class="fas fa-share-nodes text-[20px] text-green-600"></i>
+          </div>
+          <div class="tooltip" data-tip="Archive">
+            <i (click)="onArchive()" class="fas fa-archive text-[20px] text-yellow-600"></i>
+          </div>
+        </div>
+    </div>
+    </div>
+  </div>

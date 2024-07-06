@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import {MainComponent} from "./pages/main/main.component";
 import {BookListComponent} from "./pages/book-list/book-list.component";
 import {MyBooksComponent} from "./pages/my-books/my-books.component";
-import {WaitingComponent} from "./pages/waiting/waiting.component";
 import {ReturnedComponent} from "./pages/returned/returned.component";
 import {BorrowedComponent} from "./pages/borrowed/borrowed.component";
+import {FavoriteComponent} from "./pages/favorite/favorite.component";
 
 const routes: Routes = [
   {
@@ -21,8 +21,8 @@ const routes: Routes = [
         component: MyBooksComponent
       },
       {
-        path: "waiting",
-        component: WaitingComponent
+        path: "favorite",
+        component: FavoriteComponent
       },
       {
         path: "returned",
