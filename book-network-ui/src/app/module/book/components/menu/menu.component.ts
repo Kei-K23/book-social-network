@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Router, RouterLink} from "@angular/router";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {LocalStorageService} from "../../../../services/localStorage/local-storage.service";
 import {KEYS} from "../../../../constants/keys";
 
@@ -7,7 +7,8 @@ import {KEYS} from "../../../../constants/keys";
   selector: 'app-menu',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
