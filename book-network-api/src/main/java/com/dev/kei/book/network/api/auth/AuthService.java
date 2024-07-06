@@ -136,7 +136,7 @@ public class AuthService {
     // Generate random characters code for user account activation
     private String generateActivationToken(int length) {
         // Characters set
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        String characters = "0123456789";
         StringBuilder sb = new StringBuilder();
         SecureRandom secureRandom = new SecureRandom();
         // Random characters
