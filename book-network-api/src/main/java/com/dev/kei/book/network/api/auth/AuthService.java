@@ -74,6 +74,7 @@ public class AuthService {
 
         // Add login user fullName to claim to use in token
         claims.put("fullName", user.getFullName());
+        claims.put("userId", user.getId());
 
         // Generate token
         String token = jwtService.generateToken(claims, user);

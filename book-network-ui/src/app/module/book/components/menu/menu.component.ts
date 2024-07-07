@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {LocalStorageService} from "../../../../services/localStorage/local-storage.service";
 import {KEYS} from "../../../../constants/keys";
+import {JwtTokenService} from "../../../../services/jwt-token/jwt-token.service";
 
 @Component({
   selector: 'app-menu',
@@ -13,11 +14,18 @@ import {KEYS} from "../../../../constants/keys";
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
+  username: string = "";
+
   constructor(
     private localStorageService : LocalStorageService,
-    private router : Router
+    private router : Router,
+    private jwtTokenService : JwtTokenService
   ) {
+  }
+
+  ngOnInit() {
+    this.username = this.jwtTokenService.getValueFromJwt("fullName") || "";
   }
 
   onLogout() {

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {BooksService} from "../../../../services/services/books.service";
-import {Router} from "@angular/router";
 import {BookResponse} from "../../../../services/models/book-response";
 import {PageResponseBookResponse} from "../../../../services/models/page-response-book-response";
 import {NgForOf} from "@angular/common";
 import {BookCardComponent} from "../../components/book-card/book-card.component";
 import {NgxPaginationModule} from "ngx-pagination";
 import {ToastrService} from "ngx-toastr";
+import {JwtTokenService} from "../../../../services/jwt-token/jwt-token.service";
 
 @Component({
   selector: 'app-book-list',
@@ -23,16 +23,19 @@ export class BookListComponent implements OnInit{
   bookResponse : PageResponseBookResponse = {}
   page: number = 1;
   size: number = 8;
+  userId : number = 0;
 
   constructor(
     private bookService : BooksService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private jwtTokenService : JwtTokenService
   ) {
   }
 
   // Fetch all books pages data when the page load
   ngOnInit() {
     this.findAllBooks();
+    this.userId = this.jwtTokenService.getValueFromJwt("userId") || 0;
   }
 
   private findAllBooks() {
@@ -45,7 +48,7 @@ export class BookListComponent implements OnInit{
         this.bookResponse = res;
       },
       error: err => {
-        console.log(err);
+        this.toastr.error(err.error.error);
       }
     })
   }

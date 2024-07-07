@@ -40,7 +40,7 @@ export class LoginComponent {
         this.toastr.success("Login successful");
 
        // Save the JWT token in local storage
-        this.localStorageService.setLocalStorage(KEYS.JWT_KEY, res.token as string);
+       this.localStorageService.setLocalStorage(KEYS.JWT_KEY, res.token as string);
        // Navigate to main screen
        this.router.navigate(['books']);
       },

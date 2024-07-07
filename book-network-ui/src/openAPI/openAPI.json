@@ -877,6 +877,10 @@
           "owner": {
             "type": "string"
           },
+          "ownerId": {
+            "type": "integer",
+            "format": "int64"
+          },
           "rate": {
             "type": "number",
             "format": "double"

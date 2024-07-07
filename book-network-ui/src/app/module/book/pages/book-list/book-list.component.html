@@ -11,7 +11,10 @@
   itemsPerPage: size,
   currentPage: page,
   totalItems: bookResponse.totalElements
-  }" />
+  }"
+    [manage]="book.ownerId === userId"
+  />
+
 </div>
 
 <div class="mt-5 mb-10 flex justify-center items-center">

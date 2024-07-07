@@ -14,8 +14,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             """
                 SELECT b
                 FROM Book b
-                WHERE b.owner.id != :userId
-                AND b.archived = false
+                WHERE b.archived = false
                 AND b.shareable = true
             """
     )

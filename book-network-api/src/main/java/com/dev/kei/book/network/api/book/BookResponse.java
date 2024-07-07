@@ -19,5 +19,6 @@ public class BookResponse {
     private boolean archived;
     private boolean shareable;
     private String owner;
+    private Long ownerId;
     private double rate;
 }

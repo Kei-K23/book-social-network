@@ -7,6 +7,7 @@ export interface BookResponse {
   id?: number;
   isbn?: string;
   owner?: string;
+  ownerId?: number;
   rate?: number;
   shareable?: boolean;
   synopsis?: string;

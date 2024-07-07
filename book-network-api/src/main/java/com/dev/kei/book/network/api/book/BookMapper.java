@@ -26,6 +26,7 @@ public class BookMapper {
                 .synopsis(book.getSynopsis())
                 .archived(book.isArchived())
                 .owner(book.getOwner().getFullName())
+                .ownerId(book.getOwner().getId())
                 .rate(book.getRates())
                 .build();
     }

@@ -29,12 +29,16 @@ export class JwtTokenService {
     return true;
   }
 
-  setUsernameToLocalStorage(token : string) {
+  getValueFromJwt(key: "fullName" | "userId") {
+    const token = this.localStorageService.getLocalStorage(KEYS.JWT_KEY);
     if (!token) {
-      return;
+      return false;
     }
+
     const jwtHelper = new JwtHelperService();
+    // Decode jwt token
     const decoded = jwtHelper.decodeToken(token);
-    console.log(decoded);
+
+    return decoded[key];
   }
 }
