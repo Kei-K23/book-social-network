@@ -41,7 +41,9 @@ public class BookMapper {
                 .author(bookTransactionHistory.getBook().getAuthor())
                 .isbn(bookTransactionHistory.getBook().getIsbn())
                 .rate(bookTransactionHistory.getBook().getRates())
+                .owner(bookTransactionHistory.getBook().getOwner().getFullName())
                 .returned(bookTransactionHistory.isReturned())
+                .coverImage(FileUtils.readFileFromLocation(bookTransactionHistory.getBook().getCoverImage()))
                 .returnApprove(bookTransactionHistory.isReturnApprove())
                 .build();
     }

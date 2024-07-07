@@ -27,7 +27,7 @@
   ],
   "security": [
     {
-      "bearerAuth": []
+      "bearerAuth": [ ]
     }
   ],
   "paths": {
@@ -950,6 +950,16 @@
           },
           "isbn": {
             "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "coverImage": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "byte"
+            }
           },
           "rate": {
             "type": "number",

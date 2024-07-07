@@ -1,1 +1,71 @@
-<p>borrowed works!</p>
+<div class="my-8 mx-10 flex justify-between items-center">
+  <h3 class="text-2xl ">My borrowed books</h3>
+</div>
+<div class="overflow-x-auto mx-10">
+  <table class="table">
+    <!-- head -->
+    <thead>
+    <tr>
+      <th class="text-[16px]">
+        ID.
+      </th>
+      <th class="text-[16px]">Title</th>
+      <th class="text-[16px]">Author</th>
+      <th class="text-[16px]">ISBN</th>
+      <th class="text-[16px]">Rating</th>
+      <th class="text-[16px]">Owner</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let book of bookResponse.content! |
+    paginate: {
+    itemsPerPage: size,
+    currentPage: page,
+    totalItems: bookResponse.totalElements
+    }">
+      <th>
+        <label>
+          {{ book.id }}
+        </label>
+      </th>
+      <td>
+        <div class="flex items-center gap-3">
+          <div class="avatar">
+            <div class="mask mask-squircle h-12 w-12">
+              <img
+                [src]="book.coverImage ? 'data:image/jpg;base64, ' + book.coverImage : '/assets/images/noCoverImgIcon.jpg'"
+                alt="Avatar Tailwind CSS Component" />
+            </div>
+          </div>
+          <div>
+            <div class="font-bold text-[16px] line-clamp-1">{{ book.title }}</div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="text-[16px] line-clamp-1">
+          {{book.author}}
+        </div>
+      </td>
+      <td class="text-[16px]">{{book.isbn}}</td>
+      <td>
+        <app-rating [rate]="book.rate || 0" />
+      </td>
+      <td class="text-[16px]">{{book.owner }}</td>
+      <th class="flex items-center justify-evenly gap-2">
+        <div class="tooltip" data-tip="Return the book">
+          <button (click)="onReturnBorrowedBook(book)" [disabled]="book.returned" class="btn btn-ghost btn-sm">{{ book.returned ? "Returned" : "Return" }}</button>
+        </div>
+        <div class="tooltip" data-tip="Approve the book by owner">
+          <div class="badge badge-primary">{{ book.returnApprove ? "Approved" : "Waiting approve" }}</div>
+        </div>
+      </th>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="mt-5 mb-10 flex justify-center items-center">
+  <pagination-controls (pageChange)="pageChange($event)" [responsive]="true"></pagination-controls>
+</div>

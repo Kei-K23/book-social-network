@@ -44,7 +44,6 @@ export class MyBooksComponent implements OnInit{
       page: this.page !== 0 ? this.page - 1 : 0
     }).subscribe({
       next: res => {
-        console.log(res)
         this.bookResponse = res;
       },
       error: err => {

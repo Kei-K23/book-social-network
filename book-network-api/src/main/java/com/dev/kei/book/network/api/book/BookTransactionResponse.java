@@ -14,6 +14,8 @@ public class BookTransactionResponse {
     private String title;
     private String author;
     private String isbn;
+    private String owner;
+    private byte[] coverImage;
     private double rate;
     private boolean returned;
     private boolean returnApprove;
