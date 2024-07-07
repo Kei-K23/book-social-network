@@ -5,20 +5,22 @@ import {BookResponse} from "../../../../services/models/book-response";
 import {PageResponseBookResponse} from "../../../../services/models/page-response-book-response";
 import {NgForOf} from "@angular/common";
 import {BookCardComponent} from "../../components/book-card/book-card.component";
+import {NgxPaginationModule} from "ngx-pagination";
 
 @Component({
   selector: 'app-book-list',
   standalone: true,
   imports: [
     NgForOf,
-    BookCardComponent
+    BookCardComponent,
+    NgxPaginationModule
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css'
 })
 export class BookListComponent implements OnInit{
   bookResponse : PageResponseBookResponse = {}
-  page: number = 0;
+  page: number = 1;
   size: number = 5;
 
   constructor(
@@ -27,7 +29,7 @@ export class BookListComponent implements OnInit{
   ) {
   }
 
-  // Run when the page load
+  // Fetch all books pages data when the page load
   ngOnInit() {
     this.findAllBooks();
   }
@@ -36,7 +38,7 @@ export class BookListComponent implements OnInit{
     // Get all books
     this.bookService.getAllBooks({
       size: this.size,
-      page: this.page
+      page: this.page !== 0 ? this.page - 1 : 0
     }).subscribe({
       next: res => {
         this.bookResponse = res;
@@ -45,5 +47,10 @@ export class BookListComponent implements OnInit{
         console.log(err);
       }
     })
+  }
+
+  pageChange(page: number) {
+    this.page = page;
+    this.findAllBooks();
   }
 }

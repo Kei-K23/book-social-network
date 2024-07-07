@@ -3,6 +3,15 @@
   <input type="text" placeholder="Search" class="input input-bordered w-[230px] md:w-[300px]" />
 </div>
 
-<div class="grid grid-cols-4 gap-8 px-10">
-  <app-book-card [book]="book" *ngFor="let book of bookResponse.content" />
+<div class="grid grid-cols-4 gap-8 px-10 my-10">
+  <app-book-card [book]="book" *ngFor="let book of bookResponse.content! |
+  paginate: {
+  itemsPerPage: size,
+  currentPage: page,
+  totalItems: bookResponse.totalElements
+  }" />
+</div>
+
+<div class="mt-5 mb-10 flex justify-center items-center">
+  <pagination-controls (pageChange)="pageChange($event)" [responsive]="true"></pagination-controls>
 </div>
