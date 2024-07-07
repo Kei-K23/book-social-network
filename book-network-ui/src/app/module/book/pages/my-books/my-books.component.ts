@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BookCardComponent} from "../../components/book-card/book-card.component";
 import {NgForOf} from "@angular/common";
 import {NgxPaginationModule} from "ngx-pagination";
@@ -20,7 +20,7 @@ import {BookResponse} from "../../../../services/models/book-response";
   templateUrl: './my-books.component.html',
   styleUrl: './my-books.component.css'
 })
-export class MyBooksComponent {
+export class MyBooksComponent implements OnInit{
   bookResponse : PageResponseBookResponse = {}
   page: number = 1;
   size: number = 5;
@@ -60,5 +60,64 @@ export class MyBooksComponent {
 
   onEdit(book: BookResponse) {
     this.router.navigate([`/books/edit/${book.id}`])
+  }
+
+  onShare(book: BookResponse) {
+    if (!book || book.id === undefined) {
+      this.toastr.error("Cannot update book shareable status");
+    }
+
+    this.bookService.updateShareableStatus({
+      "book-id": book.id!
+    }).subscribe({
+      next: value => {
+        if (book.archived) {
+          this.bookService.updateArchivedStatus({
+            "book-id": book.id!
+          }).subscribe({
+            next: value1 => {
+              // Implement something
+            },
+            error: err =>   {}
+          })
+        }
+
+        book.shareable = !book.shareable;
+        book.archived = !book.archived;
+        this.toastr.success("Book shareable status updated successfully");
+      },
+      error: err => {
+        this.toastr.error(err.error.error);
+      }
+    });
+  }
+
+  onArchive(book: BookResponse) {
+    if (!book || book.id === undefined) {
+      this.toastr.error("Cannot update book archive status");
+    }
+
+    this.bookService.updateArchivedStatus({
+      "book-id": book.id!
+    }).subscribe({
+      next: value => {
+        if (book.shareable) {
+          this.bookService.updateShareableStatus({
+            "book-id": book.id!
+          }).subscribe({
+            next: value1 => {
+              // Implement something
+            },
+            error: err =>  {}
+          })
+        }
+        book.shareable = !book.shareable;
+        book.archived = !book.archived;
+        this.toastr.success("Book archive status updated successfully");
+      },
+      error: err => {
+        this.toastr.error(err.error.error);
+      }
+    });
   }
 }

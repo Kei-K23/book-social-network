@@ -1,6 +1,7 @@
 package com.dev.kei.book.network.api.config;
 
 import com.dev.kei.book.network.api.security.UserDetailsService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,7 @@ public class BeansConfig {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return  daoAuthenticationProvider;
+        return daoAuthenticationProvider;
     }
 
     @Bean
@@ -47,7 +48,6 @@ public class BeansConfig {
         return new ApplicationAuditAware();
     }
 
-
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -58,15 +58,13 @@ public class BeansConfig {
                 HttpHeaders.ORIGIN,
                 HttpHeaders.CONTENT_TYPE,
                 HttpHeaders.ACCEPT,
-                HttpHeaders.AUTHORIZATION
-        ));
+                HttpHeaders.AUTHORIZATION));
         config.setAllowedMethods(Arrays.asList(
                 "GET",
                 "POST",
                 "DELETE",
                 "PUT",
-                "PATCH"
-        ));
+                "PATCH"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
 

@@ -9,6 +9,8 @@
 <div class="grid grid-cols-4 gap-8 px-10 my-10">
   <app-book-card
     [manage]="true"
+    (share)="onShare($event)"
+    (archive)="onArchive($event)"
     (edit)="onEdit($event)"
     [book]="book" *ngFor="let book of bookResponse.content! |
     paginate: {

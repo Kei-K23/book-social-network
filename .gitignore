@@ -3,5 +3,5 @@
 *.iws
 *.iml
 *.ipr
-.uploads
+/uploads
 .DS_Store
