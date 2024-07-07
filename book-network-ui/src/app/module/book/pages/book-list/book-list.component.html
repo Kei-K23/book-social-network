@@ -4,7 +4,9 @@
 </div>
 
 <div class="grid grid-cols-4 gap-8 px-10 my-10">
-  <app-book-card [book]="book" *ngFor="let book of bookResponse.content! |
+  <app-book-card
+    (borrow)="borrowBook($event)"
+    [book]="book" *ngFor="let book of bookResponse.content! |
   paginate: {
   itemsPerPage: size,
   currentPage: page,

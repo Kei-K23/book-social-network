@@ -4,6 +4,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {AuthRegisterRequest} from "../../services/models/auth-register-request";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../services/services/authentication.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-register',
@@ -21,11 +22,11 @@ export class RegisterComponent {
   authRegisterRequest: AuthRegisterRequest & {
     confirmPassword: string
   } = {email: "", firstName: "", lastName: "", password: "", confirmPassword: ""};
-  errorMsg: Array<string> = [];
 
   constructor(
     private router : Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private toastr : ToastrService
   ) {
   }
 
@@ -34,12 +35,10 @@ export class RegisterComponent {
   }
 
   register() {
-    // Clear the previous error message
-    this.errorMsg = [];
     // Check password and password confirm is equal,
     // then return and show error message
     if (this.authRegisterRequest.password !== this.authRegisterRequest.confirmPassword) {
-      this.errorMsg = ["Password does not match!"];
+      this.toastr.error("Password does not match!");
       return;
     }
 
@@ -52,14 +51,15 @@ export class RegisterComponent {
       }
     }).subscribe({
       next: res => {
+        this.toastr.success("Register successful");
         // Navigate to account activation page when register success
         this.router.navigate(['account-activate']);
       },
       error: err => {
         if (err.error.validationErrors) {
-          this.errorMsg = err.error.validationErrors;
+          err.error.validationErrors.forEach((error : any) => this.toastr.error(error));
         } else {
-          this.errorMsg.push(err.error.error);
+          this.toastr.error(err.error.error);
         }
       }
     })

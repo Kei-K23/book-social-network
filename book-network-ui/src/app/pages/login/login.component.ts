@@ -6,6 +6,7 @@ import {AuthenticationService} from "../../services/services/authentication.serv
 import {NgForOf, NgIf} from "@angular/common";
 import {LocalStorageService} from "../../services/localStorage/local-storage.service";
 import {KEYS} from "../../constants/keys";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login',
@@ -20,24 +21,24 @@ import {KEYS} from "../../constants/keys";
 })
 export class LoginComponent {
   authRequest : AuthLoginRequest = {email: "", password: ""};
-  errorMsg: Array<string> = [];
 
   constructor(
     private router : Router,
     private authService : AuthenticationService,
-    private localStorageService : LocalStorageService
+    private localStorageService : LocalStorageService,
+    private toastr : ToastrService
   ) {
   }
 
   login() {
-    // Make sure to clear the errorMsg array
-    this.errorMsg = [];
     this.authService.login(
       {
         body: this.authRequest
       }
     ).subscribe({
       next: res => {
+        this.toastr.success("Login successful");
+
        // Save the JWT token in local storage
         this.localStorageService.setLocalStorage(KEYS.JWT_KEY, res.token as string);
        // Navigate to main screen
@@ -45,9 +46,9 @@ export class LoginComponent {
       },
       error: err => {
         if (err.error.validationErrors) {
-          this.errorMsg = err.error.validationErrors;
+          err.error.validationErrors.forEach((error : any) => this.toastr.error(error));
         } else {
-          this.errorMsg.push(err.error.error);
+          this.toastr.error(err.error.error);
         }
       }
     })

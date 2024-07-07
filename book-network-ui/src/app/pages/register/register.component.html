@@ -1,31 +1,4 @@
 <div class="h-full flex flex-col justify-center items-center">
-  <dialog [open]="errorMsg.length" id="my_modal_5" class="modal modal-bottom sm:modal-middle">
-    <div class="modal-box">
-      <h3 class="text-lg font-bold mb-4">Error!</h3>
-      <div *ngIf="errorMsg.length">
-        <div *ngFor="let msg of errorMsg" role="alert" class="alert alert-error my-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 shrink-0 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span>{{ msg }}</span>
-        </div>
-      </div>
-      <div class="modal-action">
-        <form method="dialog">
-          <!-- if there is a button in form, it will close the modal -->
-          <button class="btn">Close</button>
-        </form>
-      </div>
-    </div>
-  </dialog>
   <div class="card bg-neutral text-neutral-content w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px]">
     <div class="card-body items-center text-center">
       <h2 class="card-title mb-3">Register</h2>

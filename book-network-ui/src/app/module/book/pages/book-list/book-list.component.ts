@@ -6,6 +6,7 @@ import {PageResponseBookResponse} from "../../../../services/models/page-respons
 import {NgForOf} from "@angular/common";
 import {BookCardComponent} from "../../components/book-card/book-card.component";
 import {NgxPaginationModule} from "ngx-pagination";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-book-list',
@@ -21,11 +22,11 @@ import {NgxPaginationModule} from "ngx-pagination";
 export class BookListComponent implements OnInit{
   bookResponse : PageResponseBookResponse = {}
   page: number = 1;
-  size: number = 5;
+  size: number = 8;
 
   constructor(
     private bookService : BooksService,
-    private router : Router
+    private toastr: ToastrService
   ) {
   }
 
@@ -52,5 +53,28 @@ export class BookListComponent implements OnInit{
   pageChange(page: number) {
     this.page = page;
     this.findAllBooks();
+  }
+
+  borrowBook(book : BookResponse) {
+    if (!book || !book.id) {
+      this.toastr.error('Book successfully added to borrow list');
+      return;
+    }
+
+    this.bookService.borrowBook(
+      {
+        "book-id": book.id
+      }
+    ).subscribe({
+      next: value => {
+        // Success borrowed book
+        this.toastr.success('Book successfully added to borrow list');
+      },
+      error: err => {
+        console.log(err)
+        // Error borrowed book
+        this.toastr.error(err.error.error);
+      }
+    })
   }
 }
