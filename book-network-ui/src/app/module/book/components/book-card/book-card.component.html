@@ -12,10 +12,11 @@
       <h3 class="truncate">Owner: {{ book.owner }}</h3>
       <hr />
       <p class="line-clamp-3">{{ book.synopsis }}</p>
-
+      <hr />
       <div class="flex items-center justify-between">
-        <div>
-          5 stars
+        <div class="flex items-center gap-2">
+          <app-rating [rate]="book.rate || 0"/>
+          <span *ngIf="book.rate">{{ book.rate }}</span>
         </div>
         <div class="flex items-center gap-3" *ngIf="!manage">
           <div class="tooltip" data-tip="Show detail">
