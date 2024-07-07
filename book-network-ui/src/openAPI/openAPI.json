@@ -27,7 +27,7 @@
   ],
   "security": [
     {
-      "bearerAuth": [ ]
+      "bearerAuth": []
     }
   ],
   "paths": {
@@ -692,6 +692,10 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
           "rate": {
             "maximum": 5,
             "minimum": 0,
@@ -716,6 +720,10 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
           "title": {
             "type": "string"
           },
@@ -730,6 +738,13 @@
           },
           "shareable": {
             "type": "boolean"
+          },
+          "coverImg": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "byte"
+            }
           }
         }
       },

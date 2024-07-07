@@ -1,0 +1,87 @@
+<div>
+  <h3 class="text-2xl mx-10 my-10">Create and manage book</h3>
+  <div class="mx-10 flex justify-between items-start gap-10">
+    <div>
+      <img
+        [src]="selectedImage || '/assets/images/noCoverImgIcon.jpg'"
+        alt="book cover"
+        class="w-[300px] h-[280px] mb-3"
+      />
+      <input
+        (change)="onFileSelected($event)"
+        type="file"
+        class="file-input w-full max-w-xs"
+        accept="image/*"
+      />
+    </div>
+    <div class="flex-1">
+      <form class="w-full">
+        <label class="form-control w-full">
+          <div class="label">
+            <span class="label-text">Title</span>
+          </div>
+          <input
+            [(ngModel)]="bookRequest.title"
+            type="text"
+            name="title"
+            placeholder="Book title"
+            class="input input-bordered w-full"
+          />
+        </label>
+        <div class="flex items-center justify-between gap-4 mt-4">
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Author Name</span>
+            </div>
+            <input
+              [(ngModel)]="bookRequest.author"
+              type="text"
+              name="author"
+              placeholder="Author name"
+              class="input input-bordered w-full"
+            />
+          </label>
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">ISBN</span>
+            </div>
+            <input
+              [(ngModel)]="bookRequest.isbn"
+              type="text"
+              name="isbn"
+              placeholder="ISBN"
+              class="input input-bordered w-full"
+            />
+          </label>
+        </div>
+        <label class="form-control mt-4">
+          <div class="label">
+            <span class="label-text">Synopsis</span>
+          </div>
+          <textarea
+            name="synopsis"
+            [(ngModel)]="bookRequest.synopsis"
+            class="textarea textarea-bordered h-24"
+            placeholder="Book description"
+          ></textarea>
+        </label>
+        <div class="form-control mt-3">
+          <label class="w-[110px] label cursor-pointer">
+            <input
+              [(ngModel)]="bookRequest.shareable"
+              type="checkbox"
+              name="shareable"
+              [checked]="bookRequest.shareable"
+              class="checkbox checkbox-primary"
+            />
+            <span class="label-text text-[16px]">Share me</span>
+          </label>
+        </div>
+        <div class="flex items-center gap-4 mt-5">
+          <button (click)="saveBook()" class="btn btn-primary">Save</button>
+          <button (click)="onCancel()" class="btn btn-neutral">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

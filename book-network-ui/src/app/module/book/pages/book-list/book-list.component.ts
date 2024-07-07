@@ -7,6 +7,7 @@ import {BookCardComponent} from "../../components/book-card/book-card.component"
 import {NgxPaginationModule} from "ngx-pagination";
 import {ToastrService} from "ngx-toastr";
 import {JwtTokenService} from "../../../../services/jwt-token/jwt-token.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-book-list',
@@ -28,7 +29,8 @@ export class BookListComponent implements OnInit{
   constructor(
     private bookService : BooksService,
     private toastr: ToastrService,
-    private jwtTokenService : JwtTokenService
+    private jwtTokenService : JwtTokenService,
+    private router : Router
   ) {
   }
 

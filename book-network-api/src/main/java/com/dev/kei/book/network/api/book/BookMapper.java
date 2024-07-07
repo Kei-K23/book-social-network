@@ -1,5 +1,6 @@
 package com.dev.kei.book.network.api.book;
 
+import com.dev.kei.book.network.api.file.FileUtils;
 import com.dev.kei.book.network.api.transactionHistory.BookTransactionHistory;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 public class BookMapper {
     public Book toBook(BookRequest request) {
         return Book.builder()
+                .id(request.getId())
                 .title(request.getTitle())
                 .author(request.getAuthor())
                 .isbn(request.getIsbn())
@@ -28,6 +30,7 @@ public class BookMapper {
                 .owner(book.getOwner().getFullName())
                 .ownerId(book.getOwner().getId())
                 .rate(book.getRates())
+                .coverImage(FileUtils.readFileFromLocation(book.getCoverImage()))
                 .build();
     }
 

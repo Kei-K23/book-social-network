@@ -5,15 +5,18 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {PageResponseBookResponse} from "../../../../services/models/page-response-book-response";
 import {BooksService} from "../../../../services/services/books.service";
 import {ToastrService} from "ngx-toastr";
+import {Router, RouterLink} from "@angular/router";
+import {BookResponse} from "../../../../services/models/book-response";
 
 @Component({
   selector: 'app-my-books',
   standalone: true,
-    imports: [
-        BookCardComponent,
-        NgForOf,
-        NgxPaginationModule
-    ],
+  imports: [
+    BookCardComponent,
+    NgForOf,
+    NgxPaginationModule,
+    RouterLink
+  ],
   templateUrl: './my-books.component.html',
   styleUrl: './my-books.component.css'
 })
@@ -24,6 +27,7 @@ export class MyBooksComponent {
 
   constructor(
     private bookService : BooksService,
+    private router: Router,
     private toastr: ToastrService
   ) {
   }
@@ -35,11 +39,12 @@ export class MyBooksComponent {
 
   private findAllBooks() {
     // Get all books
-    this.bookService.getAllBooks({
+    this.bookService.getAllBooksByOwner({
       size: this.size,
       page: this.page !== 0 ? this.page - 1 : 0
     }).subscribe({
       next: res => {
+        console.log(res)
         this.bookResponse = res;
       },
       error: err => {
@@ -51,5 +56,9 @@ export class MyBooksComponent {
   pageChange(page: number) {
     this.page = page;
     this.findAllBooks();
+  }
+
+  onEdit(book: BookResponse) {
+    this.router.navigate([`/books/edit/${book.id}`])
   }
 }

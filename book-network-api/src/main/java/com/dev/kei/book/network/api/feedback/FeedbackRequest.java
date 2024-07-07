@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeedbackRequest {
+    private Long id;
     @Positive(message = "201")
     @Min(value = 0, message = "202")
     @Max(value = 5, message = "202")

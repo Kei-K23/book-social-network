@@ -16,7 +16,6 @@ import {RatingComponent} from "../rating/rating.component";
 export class BookCardComponent {
 
   private _book: BookResponse = {};
-  private _bookCover: string | undefined = "";
   private _manage: boolean = false;
 
   @Output() private share : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
@@ -40,10 +39,6 @@ export class BookCardComponent {
       return "data:image/jpg;base64, " + this._book.coverImage;
     }
     return "/assets/images/noCoverImgIcon.jpg";
-  }
-
-  set bookCover(value: string | undefined) {
-    this._bookCover = value;
   }
 
   @Input()

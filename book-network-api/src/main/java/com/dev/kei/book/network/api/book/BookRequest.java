@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class BookRequest {
+    private Long id;
     @NotNull(message = "Title cannot be null")
     @NotBlank(message = "Title cannot be blank")
     private String title;
@@ -25,4 +26,5 @@ public class BookRequest {
     @NotBlank(message = "Synopsis cannot be blank")
     private String synopsis;
     private boolean shareable;
+    private byte[] coverImg;
 }

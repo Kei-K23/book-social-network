@@ -3,5 +3,6 @@
 export interface FeedbackRequest {
   bookId: number;
   comment: string;
+  id?: number;
   rate?: number;
 }
