@@ -73,7 +73,7 @@ export class BookListComponent implements OnInit{
     ).subscribe({
       next: value => {
         // Success borrowed book
-        this.toastr.success('Book successfully added to borrow list');
+        this.toastr.success('Successfully borrowed the book');
       },
       error: err => {
         console.log(err)

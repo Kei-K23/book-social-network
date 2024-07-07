@@ -255,15 +255,15 @@ public class BookService {
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + bookId + " to return"));
 
         // Check book is owned by authenticated user
-        if (Objects.equals(book.getOwner().getId(), user.getId())) {
-            throw new OperationNotPermittedException("User can not return their own book");
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("User can approve their own book");
         }
 
         // Check user actually borrowed the book
         Optional<BookTransactionHistory> bookTransactionHistory = bookTransactionRepository
                 .findByBookIdAndOwnerId(bookId, user.getId());
         if (bookTransactionHistory.isEmpty()) {
-            throw new OperationNotPermittedException("The book is not returned yet. You cannot approve its return");
+            throw new OperationNotPermittedException("The book is not returned yet. You cannot approve its");
         }
 
         // Update book transaction history returned status to true
