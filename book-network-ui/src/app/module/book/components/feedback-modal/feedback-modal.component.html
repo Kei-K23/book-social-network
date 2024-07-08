@@ -1,0 +1,40 @@
+<dialog id="feedback_modal" class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">Feedback to Book ID - {{ book.id }}</h3>
+    <p class="py-4 text-[17px]">Express your feeling and share your thought</p>
+    <p class="py-1 text-[13px]">Press ESC key or click the button below to close</p>
+    <div class="modal-action mt-1">
+      <form method="dialog" class="w-full">
+        <label class="form-control w-full">
+          <div class="label">
+            <span class="label-text">Comment</span>
+          </div>
+          <textarea
+            name="comment"
+            [(ngModel)]="comment"
+            class="textarea textarea-bordered h-24"
+            placeholder="Comment"
+          ></textarea>
+        </label>
+        <label class="form-control w-full">
+          <div class="label">
+            <span class="label-text">Rating</span>
+          </div>
+          <input
+            [(ngModel)]="rate"
+            type="number"
+            name="rate"
+            class="input input-bordered w-full"
+            min="0"
+            max="5"
+          />
+        </label>
+        <div class="flex items-center gap-4 mt-4">
+          <button (click)="onSubmit()" class="btn btn-primary">Submit</button>
+          <button (click)="onCloseModal()" class="btn">Close</button>
+        </div>
+        <p></p>
+      </form>
+    </div>
+  </div>
+</dialog>

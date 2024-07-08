@@ -54,8 +54,11 @@
       </td>
       <td class="text-[16px]">{{book.owner }}</td>
       <th class="flex items-center justify-evenly gap-2">
+        <div class="tooltip" data-tip="Give feedback">
+          <button (click)="onFeedbackBook(book)" onclick="feedback_modal.showModal()" class="btn btn-secondary btn-sm">Feedback</button>
+        </div>
         <div class="tooltip" data-tip="Return the book">
-          <button (click)="onReturnBorrowedBook(book)" [disabled]="book.returned" class="btn btn-ghost btn-sm">{{ book.returned ? "Returned" : "Return" }}</button>
+          <button (click)="onReturnBorrowedBook(book)" [disabled]="book.returned" class="btn btn-primary btn-sm">{{ book.returned ? "Returned" : "Return" }}</button>
         </div>
         <div class="tooltip" data-tip="Approve the book by owner">
           <div class="badge badge-primary">{{ book.returnApprove ? "Approved" : "Waiting approve" }}</div>
@@ -65,6 +68,8 @@
     </tbody>
   </table>
 </div>
+
+<app-feedback-modal [book]="selectedBookForFeedback"/>
 
 <div class="mt-5 mb-10 flex justify-center items-center">
   <pagination-controls (pageChange)="pageChange($event)" [responsive]="true"></pagination-controls>

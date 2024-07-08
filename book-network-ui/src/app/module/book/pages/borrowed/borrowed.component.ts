@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {PageResponseBookResponse} from "../../../../services/models/page-response-book-response";
 import {BooksService} from "../../../../services/services/books.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {BookCardComponent} from "../../components/book-card/book-card.component";
 import {NgForOf} from "@angular/common";
@@ -9,6 +8,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {RatingComponent} from "../../components/rating/rating.component";
 import {PageResponseBookTransactionResponse} from "../../../../services/models/page-response-book-transaction-response";
 import {BookTransactionResponse} from "../../../../services/models/book-transaction-response";
+import {FeedbackModalComponent} from "../../components/feedback-modal/feedback-modal.component";
 
 @Component({
   selector: 'app-borrowed',
@@ -17,15 +17,19 @@ import {BookTransactionResponse} from "../../../../services/models/book-transact
     BookCardComponent,
     NgForOf,
     NgxPaginationModule,
-    RatingComponent
+    RatingComponent,
+    RouterLink,
+    FeedbackModalComponent
   ],
   templateUrl: './borrowed.component.html',
   styleUrl: './borrowed.component.css'
 })
 export class BorrowedComponent implements OnInit {
+
   bookResponse : PageResponseBookTransactionResponse = {}
   page: number = 1;
   size: number = 5;
+  selectedBookForFeedback : BookTransactionResponse = {}
 
   constructor(
     private bookService : BooksService,
@@ -70,5 +74,9 @@ export class BorrowedComponent implements OnInit {
       error: err => this.toastr.error(err.error.error)
     })
 
+  }
+
+  onFeedbackBook(book: BookTransactionResponse) {
+    this.selectedBookForFeedback = book;
   }
 }
