@@ -57,6 +57,15 @@ public class BookController {
         return ResponseEntity.ok(bookService.getBookById(bookId));
     }
 
+    @DeleteMapping("/{book-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBookById(
+            @PathVariable("book-id") Long bookId,
+            Authentication authentication
+    ) {
+        bookService.deleteBookById(bookId, authentication);
+    }
+
     @GetMapping
     public ResponseEntity<PageResponse<BookResponse>> getAllBooks(
             @RequestParam(value = "page", defaultValue = "0", required = false) int page,

@@ -119,4 +119,33 @@ export class MyBooksComponent implements OnInit{
       }
     });
   }
+
+  // onDelete(book: BookResponse) {
+  //   if (!book || book.id === undefined) {
+  //     this.toastr.error("Cannot delete the book");
+  //   }
+  //
+  //   this.bookService.delete({
+  //     "book-id": book.id!
+  //   }).subscribe({
+  //     next: value => {
+  //       if (book.shareable) {
+  //         this.bookService.updateShareableStatus({
+  //           "book-id": book.id!
+  //         }).subscribe({
+  //           next: value1 => {
+  //             // Implement something
+  //           },
+  //           error: err =>  {}
+  //         })
+  //       }
+  //       book.shareable = !book.shareable;
+  //       book.archived = !book.archived;
+  //       this.toastr.success("Book archive status updated successfully");
+  //     },
+  //     error: err => {
+  //       this.toastr.error(err.error.error);
+  //     }
+  //   });
+  // }
 }

@@ -524,6 +524,28 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Books"
+        ],
+        "operationId": "deleteBookById",
+        "parameters": [
+          {
+            "name": "book-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
       }
     },
     "/books/returned": {

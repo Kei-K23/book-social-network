@@ -9,7 +9,6 @@ import com.dev.kei.book.network.api.transactionHistory.BookTransactionRepository
 import com.dev.kei.book.network.api.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,11 +18,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -290,5 +287,17 @@ public class BookService {
         // Save book cover image to database
         book.setCoverImage(coverImageFile);
         bookRepository.save(book);
+    }
+
+    public void deleteBookById(Long bookId, Authentication authentication) {
+        var book = this.bookRepository.findById(bookId).orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + bookId));
+        User user = (User) authentication.getPrincipal();
+
+        // Check the book own by auth user
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("Cannot delete book that own by other user's");
+        }
+        // Delete the book
+        this.bookRepository.delete(book);
     }
 }

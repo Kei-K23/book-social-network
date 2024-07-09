@@ -14,6 +14,8 @@ import { ApproveReturnedBorrowedBook$Params } from '../fn/books/approve-returned
 import { BookResponse } from '../models/book-response';
 import { borrowBook } from '../fn/books/borrow-book';
 import { BorrowBook$Params } from '../fn/books/borrow-book';
+import { deleteBookById } from '../fn/books/delete-book-by-id';
+import { DeleteBookById$Params } from '../fn/books/delete-book-by-id';
 import { getAllBooks } from '../fn/books/get-all-books';
 import { GetAllBooks$Params } from '../fn/books/get-all-books';
 import { getAllBooksByOwner } from '../fn/books/get-all-books-by-owner';
@@ -269,6 +271,31 @@ export class BooksService extends BaseService {
   getBookById(params: GetBookById$Params, context?: HttpContext): Observable<BookResponse> {
     return this.getBookById$Response(params, context).pipe(
       map((r: StrictHttpResponse<BookResponse>): BookResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteBookById()` */
+  static readonly DeleteBookByIdPath = '/books/{book-id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteBookById()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteBookById$Response(params: DeleteBookById$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteBookById(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteBookById$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteBookById(params: DeleteBookById$Params, context?: HttpContext): Observable<void> {
+    return this.deleteBookById$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 

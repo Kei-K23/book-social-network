@@ -26,11 +26,7 @@ export class BookCardComponent {
   @Output() private edit : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private details : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private feedback : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-
-  constructor(
-    private router : Router
-  ) {
-  }
+  @Output() private delete : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
 
   @Input()
   set book(value: BookResponse) {
@@ -83,5 +79,9 @@ export class BookCardComponent {
 
   onFeedback() {
     this.feedback.emit(this._book);
+  }
+
+  onDelete() {
+    this.delete.emit(this._book);
   }
 }

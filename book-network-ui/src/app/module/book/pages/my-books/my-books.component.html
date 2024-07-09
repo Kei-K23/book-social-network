@@ -12,6 +12,7 @@
     (share)="onShare($event)"
     (archive)="onArchive($event)"
     (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
     [book]="book" *ngFor="let book of bookResponse.content! |
     paginate: {
     itemsPerPage: size,
