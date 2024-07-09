@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BookResponse} from "../../../../services/models/book-response";
 import {NgIf} from "@angular/common";
 import {RatingComponent} from "../rating/rating.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-book-card',
@@ -24,6 +25,12 @@ export class BookCardComponent {
   @Output() private borrow : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private edit : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private details : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+  @Output() private feedback : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+
+  constructor(
+    private router : Router
+  ) {
+  }
 
   @Input()
   set book(value: BookResponse) {
@@ -72,5 +79,9 @@ export class BookCardComponent {
 
   onArchive() {
     this.archive.emit(this._book);
+  }
+
+  onFeedback() {
+    this.feedback.emit(this._book);
   }
 }

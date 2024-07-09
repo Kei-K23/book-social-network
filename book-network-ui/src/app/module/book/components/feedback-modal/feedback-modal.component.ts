@@ -1,7 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BookTransactionResponse} from "../../../../services/models/book-transaction-response";
 import {FeedbacksService} from "../../../../services/services/feedbacks.service";
-import {FeedbackRequest} from "../../../../services/models/feedback-request";
 import {FormsModule} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 
@@ -20,6 +19,8 @@ export class FeedbackModalComponent {
   rate: number = 0;
 
   private _book: BookTransactionResponse = {};
+  @Output() private rating : EventEmitter<{rating: number, id : number}> = new EventEmitter<{rating: number, id : number}>();
+
 
   constructor(
     private feedbacksService : FeedbacksService,
@@ -51,6 +52,7 @@ export class FeedbackModalComponent {
       next: value => {
         this.toastr.success("Successfully give a feedback");
         this._book.rate = this.rate;
+        this.rating.emit({rating: this.rate, id: this._book.id!});
 
         // Clear the state, after success of give feedback and close the modal
         this.comment = "";

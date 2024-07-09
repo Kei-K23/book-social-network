@@ -7,16 +7,19 @@ import {BookCardComponent} from "../../components/book-card/book-card.component"
 import {NgxPaginationModule} from "ngx-pagination";
 import {ToastrService} from "ngx-toastr";
 import {JwtTokenService} from "../../../../services/jwt-token/jwt-token.service";
+import {FeedbackModalComponent} from "../../components/feedback-modal/feedback-modal.component";
+import {BookTransactionResponse} from "../../../../services/models/book-transaction-response";
 import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-book-list',
   standalone: true,
-  imports: [
-    NgForOf,
-    BookCardComponent,
-    NgxPaginationModule
-  ],
+    imports: [
+        NgForOf,
+        BookCardComponent,
+        NgxPaginationModule,
+        FeedbackModalComponent
+    ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css'
 })
@@ -25,6 +28,8 @@ export class BookListComponent implements OnInit{
   page: number = 1;
   size: number = 8;
   userId : number = 0;
+  selectedBookForFeedback : BookTransactionResponse = {}
+  rating : number = 0;
 
   constructor(
     private bookService : BooksService,
@@ -60,6 +65,10 @@ export class BookListComponent implements OnInit{
     this.findAllBooks();
   }
 
+  onEdit(book: BookResponse) {
+    this.router.navigate([`/books/edit/${book.id}`])
+  }
+
   borrowBook(book : BookResponse) {
     if (!book || !book.id) {
       this.toastr.error('Book successfully added to borrow list');
@@ -81,5 +90,19 @@ export class BookListComponent implements OnInit{
         this.toastr.error(err.error.error);
       }
     })
+  }
+
+  onFeedback(book: BookResponse) {
+    this.selectedBookForFeedback.id = book.id
+  }
+
+  // TODO: Need to refactor the process of reactivity for rating state
+  onFeedbackRating(rating: { rating: number; id: number }) {
+    this.bookResponse.content?.map(b => {
+      if (b.id === rating.id) {
+        b.rate = rating.rating;
+      }
+      return b;
+    });
   }
 }

@@ -12,50 +12,62 @@
     <hr />
     <p class="line-clamp-3">{{ book.synopsis }}</p>
     <hr />
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <app-rating [rate]="book.rate || 0" />
-        <span *ngIf="book.rate">{{ book.rate }}</span>
+    <div class="flex items-center gap-2">
+      <app-rating [rate]="book.rate || 0" />
+      <span *ngIf="book.rate">{{ book.rate }}</span>
+    </div>
+    <hr />
+    <div class="flex items-center justify-between gap-3" *ngIf="!manage">
+      <div class="tooltip" data-tip="Show detail">
+        <button (click)="onShowDetail()" class="btn btn-sm">
+          <i
+            class="fas fa-circle-info text-[20px] text-blue-600"
+          ></i>
+        </button>
       </div>
-      <div class="flex items-center gap-3" *ngIf="!manage">
-        <div class="tooltip" data-tip="Show detail">
+      <div class="tooltip" data-tip="Borrow">
+        <button (click)="onBorrow()" class="btn btn-sm">
           <i
-            (click)="onShowDetail()"
-            class="cursor-pointer fas fa-circle-info text-[20px] text-blue-600"
+            class="fas fa-list-check text-[20px] text-blue-600"
           ></i>
-        </div>
-        <div class="tooltip" data-tip="Borrow">
-          <i
-            (click)="onBorrow()"
-            class="cursor-pointer fas fa-list-check text-[20px] text-blue-600"
-          ></i>
-        </div>
-        <div class="tooltip" data-tip="Favorite">
-          <i
-            (click)="onFavorite()"
-            class="cursor-pointer fas fa-heart text-[20px] text-red-600"
-          ></i>
-        </div>
+        </button>
       </div>
-      <div class="flex items-center gap-3" *ngIf="manage">
-        <div class="tooltip" data-tip="Edit">
+      <div class="tooltip" data-tip="Feedback">
+        <button (click)="onFeedback()"  onclick="feedback_modal.showModal()" class="btn btn-sm">
           <i
-            (click)="onEdit()"
-            class="cursor-pointer fas fa-edit text-[20px] text-blue-600"
+            class="fas fa-comment text-[20px] text-pink-600"
           ></i>
-        </div>
-        <div class="tooltip" data-tip="Share">
+        </button>
+      </div>
+      <div class="tooltip" data-tip="Favorite">
+        <button (click)="onFavorite()" class="btn btn-sm">
           <i
-            (click)="onShare()"
-            class="cursor-pointer fas fa-share-nodes text-[20px] text-green-600"
+            class="fas fa-heart text-[20px] text-red-600"
           ></i>
-        </div>
-        <div class="tooltip" data-tip="Archive">
+        </button>
+      </div>
+    </div>
+    <div class="flex items-center justify-between gap-3" *ngIf="manage">
+      <div class="tooltip" data-tip="Edit">
+        <button (click)="onEdit()" class="btn btn-sm">
+        <i
+          class="fas fa-edit text-[20px] text-blue-600"
+        ></i>
+        </button>
+      </div>
+      <div class="tooltip" data-tip="Share">
+        <button (click)="onShare()" class="btn btn-sm">
           <i
-            (click)="onArchive()"
-            class="cursor-pointer fas fa-archive text-[20px] text-yellow-600"
+            class=" fas fa-share-nodes text-[20px] text-green-600"
           ></i>
-        </div>
+        </button>
+      </div>
+      <div class="tooltip" data-tip="Archive">
+        <button (click)="onArchive()" class="btn btn-sm">
+          <i
+            class="fas fa-archive text-[20px] text-yellow-600"
+          ></i>
+        </button>
       </div>
     </div>
   </div>

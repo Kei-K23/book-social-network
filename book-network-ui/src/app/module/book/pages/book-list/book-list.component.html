@@ -6,16 +6,19 @@
 <div class="grid grid-cols-4 gap-8 px-10 my-10">
   <app-book-card
     (borrow)="borrowBook($event)"
+    (feedback)="onFeedback($event)"
+    (edit)="onEdit($event)"
     [book]="book" *ngFor="let book of bookResponse.content! |
-  paginate: {
-  itemsPerPage: size,
-  currentPage: page,
-  totalItems: bookResponse.totalElements
-  }"
+    paginate: {
+    itemsPerPage: size,
+    currentPage: page,
+    totalItems: bookResponse.totalElements
+    }"
     [manage]="book.ownerId === userId"
   />
-
 </div>
+
+<app-feedback-modal (rating)="onFeedbackRating($event)" [book]="selectedBookForFeedback"/>
 
 <div class="mt-5 mb-10 flex justify-center items-center">
   <pagination-controls (pageChange)="pageChange($event)" [responsive]="true"></pagination-controls>
