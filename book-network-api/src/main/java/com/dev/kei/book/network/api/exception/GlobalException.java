@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -71,6 +72,17 @@ public class GlobalException {
 
     @ExceptionHandler(OperationNotPermittedException.class)
     public ResponseEntity<ExceptionResponse> handleException(OperationNotPermittedException exp) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(ExceptionResponse.builder()
+                        .businessErrorCode(BusinessErrorCodes.FORBIDDEN.getCode())
+                        .businessErrorMessage(BusinessErrorCodes.FORBIDDEN.getDescription())
+                        .error(exp.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleException(UsernameNotFoundException exp) {
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
                 .body(ExceptionResponse.builder()

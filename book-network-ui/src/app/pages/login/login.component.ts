@@ -45,6 +45,7 @@ export class LoginComponent {
        this.router.navigate(['books']);
       },
       error: err => {
+        console.log(err)
         if (err.error.validationErrors) {
           err.error.validationErrors.forEach((error : any) => this.toastr.error(error));
         } else {

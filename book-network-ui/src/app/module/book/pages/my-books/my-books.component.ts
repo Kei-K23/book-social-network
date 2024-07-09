@@ -46,10 +46,8 @@ export class MyBooksComponent implements OnInit{
       next: res => {
         this.bookResponse = res;
       },
-      error: err => {
-        console.log(err);
-      }
-    })
+      error: err =>  this.toastr.error(err.error.error)
+  })
   }
 
   pageChange(page: number) {
@@ -77,7 +75,7 @@ export class MyBooksComponent implements OnInit{
             next: value1 => {
               // Implement something
             },
-            error: err =>   {}
+            error: err =>  this.toastr.error(err.error.error)
           })
         }
 
@@ -107,7 +105,7 @@ export class MyBooksComponent implements OnInit{
             next: value1 => {
               // Implement something
             },
-            error: err =>  {}
+            error: err =>  this.toastr.error(err.error.error)
           })
         }
         book.shareable = !book.shareable;
@@ -120,32 +118,22 @@ export class MyBooksComponent implements OnInit{
     });
   }
 
-  // onDelete(book: BookResponse) {
-  //   if (!book || book.id === undefined) {
-  //     this.toastr.error("Cannot delete the book");
-  //   }
-  //
-  //   this.bookService.delete({
-  //     "book-id": book.id!
-  //   }).subscribe({
-  //     next: value => {
-  //       if (book.shareable) {
-  //         this.bookService.updateShareableStatus({
-  //           "book-id": book.id!
-  //         }).subscribe({
-  //           next: value1 => {
-  //             // Implement something
-  //           },
-  //           error: err =>  {}
-  //         })
-  //       }
-  //       book.shareable = !book.shareable;
-  //       book.archived = !book.archived;
-  //       this.toastr.success("Book archive status updated successfully");
-  //     },
-  //     error: err => {
-  //       this.toastr.error(err.error.error);
-  //     }
-  //   });
-  // }
+  onDelete(book: BookResponse) {
+    if (!book || book.id === undefined) {
+      this.toastr.error("Cannot delete the book");
+    }
+
+    this.bookService.deleteBookById({
+      "book-id": book.id!
+    }).subscribe({
+      next: value => {
+        // Remove the item also from client state
+        this.bookResponse.content = this.bookResponse.content?.filter(b => b.id !== book.id);
+        this.toastr.success("Book with id " + book.id + " deleted successfully");
+      },
+      error: err => {
+        this.toastr.error(err.error.error);
+      }
+    });
+  }
 }

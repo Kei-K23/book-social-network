@@ -39,6 +39,16 @@ public class Book extends BaseEntity {
     @OneToMany(mappedBy = "book")
     private List<BookTransactionHistory> bookTransitionHistories;
 
+    public Book(String title, String author, String isbn, String synopsis, boolean shareable, User user) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.synopsis = synopsis;
+        this.shareable = shareable;
+        this.owner = user;
+        this.setCreatedBy(user.getId());
+    }
+
     @Transient
     public double getRates() {
         // Check feedback have in this book
