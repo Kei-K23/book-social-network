@@ -1,0 +1,15 @@
+<div>
+  <h3 class="text-2xl mx-10 my-10">Create and manage book</h3>
+  <div class="mx-10 flex justify-between items-start gap-10">
+    <div>
+      <img
+        [src]="selectedImage || '/assets/images/noCoverImgIcon.jpg'"
+        alt="book cover"
+        class="w-[300px] h-[280px] mb-3"
+      />
+    </div>
+    <div class="flex-1">
+      <h2>{{ book.title }}</h2>
+    </div>
+  </div>
+</div>

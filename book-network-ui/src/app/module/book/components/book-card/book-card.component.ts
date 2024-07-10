@@ -24,9 +24,15 @@ export class BookCardComponent {
   @Output() private addToFavorite : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private borrow : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private edit : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private details : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private feedback : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private delete : EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+
+  constructor(
+    private router: Router
+  ) {
+
+  }
+
 
   @Input()
   set book(value: BookResponse) {
@@ -54,7 +60,7 @@ export class BookCardComponent {
   }
 
   onShowDetail() {
-    this.details.emit(this._book);
+    this.router.navigate([`/books/detail/${this._book}`]);
   }
 
   onBorrow() {

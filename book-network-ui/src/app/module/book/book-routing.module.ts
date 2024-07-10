@@ -8,6 +8,7 @@ import {BorrowedComponent} from "./pages/borrowed/borrowed.component";
 import {FavoriteComponent} from "./pages/favorite/favorite.component";
 import {authGuard} from "../../services/guard/auth/auth.guard";
 import {ManageBookComponent} from "./pages/manage-book/manage-book.component";
+import {BookDetailComponent} from "./pages/book-detail/book-detail.component";
 
 const routes: Routes = [
   {
@@ -33,6 +34,11 @@ const routes: Routes = [
       {
         path: "edit/:id",
         component: ManageBookComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: "detail/:id",
+        component: BookDetailComponent,
         canActivate: [authGuard],
       },
       {
