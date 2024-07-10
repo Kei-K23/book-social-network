@@ -57,6 +57,15 @@ public class BookController {
         return ResponseEntity.ok(bookService.getBookById(bookId));
     }
 
+    @GetMapping( "/search")
+    public ResponseEntity<PageResponse<BookResponse>> getBookByName(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "0", required = false) int size,
+            @RequestParam(value = "book-name", required = true, defaultValue = "") String name
+    ) {
+        return ResponseEntity.ok(bookService.getBookByName(name, page, size));
+    }
+
     @DeleteMapping("/{book-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBookById(

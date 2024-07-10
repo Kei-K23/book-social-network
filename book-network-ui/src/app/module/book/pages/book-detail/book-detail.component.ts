@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {BooksService} from "../../../../services/services/books.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import {BookRequest} from "../../../../services/models/book-request";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RatingComponent} from "../../components/rating/rating.component";
 import {BookResponse} from "../../../../services/models/book-response";
@@ -75,7 +74,26 @@ export class BookDetailComponent implements OnInit{
   }
 
   onBorrow() {
+    if (!this.book || !this.book.id) {
+      this.toastr.error('Book is missing to borrow');
+      return;
+    }
 
+    this.booksService.borrowBook(
+      {
+        "book-id": this.book.id
+      }
+    ).subscribe({
+      next: value => {
+        // Success borrowed book
+        this.toastr.success('Successfully borrowed the book');
+      },
+      error: err => {
+        console.log(err)
+        // Error borrowed book
+        this.toastr.error(err.error.error);
+      }
+    })
   }
 
   onFeedback() {

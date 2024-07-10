@@ -300,4 +300,25 @@ public class BookService {
         // Delete the book
         this.bookRepository.delete(book);
     }
+
+    public PageResponse<BookResponse> getBookByName(String name, int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Book> bookTransactionHistories = bookTransactionRepository
+                .findAllBookByName(pageable, name);
+
+        // Map to book transaction lists to book transaction response
+        List<BookResponse> bookResponses = bookTransactionHistories.stream()
+                .map(bookMapper::toBookResponse).toList();
+
+        // Return PageResponse for book transaction response
+        return new PageResponse<>(
+                bookResponses,
+                bookTransactionHistories.getNumber(),
+                bookTransactionHistories.getSize(),
+                bookTransactionHistories.getTotalElements(),
+                bookTransactionHistories.getTotalPages(),
+                bookTransactionHistories.isFirst(),
+                bookTransactionHistories.isLast());
+    }
 }

@@ -71,7 +71,7 @@ export class BookListComponent implements OnInit{
 
   borrowBook(book : BookResponse) {
     if (!book || !book.id) {
-      this.toastr.error('Book successfully added to borrow list');
+      this.toastr.error('Book is missing to borrow');
       return;
     }
 

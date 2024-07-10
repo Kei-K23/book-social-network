@@ -1,5 +1,6 @@
 package com.dev.kei.book.network.api.transactionHistory;
 
+import com.dev.kei.book.network.api.book.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -73,4 +74,13 @@ public interface BookTransactionRepository extends JpaRepository<BookTransaction
             """
     )
     Optional<BookTransactionHistory> findByBookIdAndOwnerId(@Param("bookId") Long bookId, @Param("userId") Long userId);
+
+    @Query(
+            """
+            SELECT b
+            FROM Book b
+            WHERE b.title LIKE CONCAT('%', :title, '%')
+            """
+    )
+    Page<Book> findAllBookByName(Pageable pageable, @Param("name") String name);
 }
