@@ -60,7 +60,7 @@ export class BookCardComponent {
   }
 
   onShowDetail() {
-    this.router.navigate([`/books/detail/${this._book}`]);
+    this.router.navigate([`/books/detail/${this._book.id}`]);
   }
 
   onBorrow() {

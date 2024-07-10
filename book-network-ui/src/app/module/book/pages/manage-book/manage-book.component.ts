@@ -4,6 +4,8 @@ import { BookRequest } from "../../../../services/models/book-request";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { FormsModule } from "@angular/forms";
+import {FeedbacksService} from "../../../../services/services/feedbacks.service";
+import {PageResponseFeedbackResponse} from "../../../../services/models/page-response-feedback-response";
 
 @Component({
   selector: 'app-manage-book',
@@ -22,12 +24,14 @@ export class ManageBookComponent implements OnInit {
     synopsis: "",
     author: ""
   };
+  feedbackResponses: PageResponseFeedbackResponse = {}
   bookId: number | undefined;
   selectedCoverImg: any;
   selectedImage: string | undefined;
 
   constructor(
     private booksService: BooksService,
+    private feedbacksService: FeedbacksService,
     private router: Router,
     private activeRoute: ActivatedRoute,
     private toastr: ToastrService
@@ -54,6 +58,16 @@ export class ManageBookComponent implements OnInit {
             this.selectedImage = "data:image/jpg;base64, " + book.coverImage;
             this.bookRequest.coverImg = book.coverImage;
           }
+          this.feedbacksService.getAllFeedbacksByBookId(
+            {
+              "book-id": book.id!
+            },
+          ).subscribe({
+            next: value => {
+              this.feedbackResponses = value;
+            },
+            error : err => this.toastr.error(err.error.error)
+          })
         },
         error: err => {
           this.toastr.error(err.error.error);

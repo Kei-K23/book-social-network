@@ -1,15 +1,51 @@
-<div>
-  <h3 class="text-2xl mx-10 my-10">Create and manage book</h3>
-  <div class="mx-10 flex justify-between items-start gap-10">
+<div class="mt-5">
+  <div class="px-10 mx-auto w-full md:w-[780px] lg:w-[1000px] flex
+   flex-col md:flex-row md:justify-between md:items-start items-center gap-10">
     <div>
       <img
         [src]="selectedImage || '/assets/images/noCoverImgIcon.jpg'"
         alt="book cover"
-        class="w-[300px] h-[280px] mb-3"
+        class="w-[250px] h-[230px] md:w-[280px] md:h-[260px]"
       />
     </div>
     <div class="flex-1">
-      <h2>{{ book.title }}</h2>
+      <h2 class="text-2xl font-bold">{{ book.title }}</h2>
+      <p class="mb-1 text-lg">Author: {{ book.author }}</p>
+      <p class="mb-1 text-lg">ISBN: {{ book.isbn }}</p>
+      <div class="mb-1 text-lg flex items-center gap-1">
+        <span>Rating: </span>
+        <app-rating [rate]="book.rate || 0"/>
+      </div>
+      <p class="mb-1 text-lg">Owner: {{ book.owner }}</p>
+      <hr>
+      <p class="mt-1 text-lg">
+        {{ book.synopsis }}
+      </p>
+      <div class="flex items-center justify-between gap-3 mt-5" >
+        <div class="tooltip" data-tip="Borrow">
+          <button (click)="onBorrow()" class="btn btn-sm">
+            <i
+              class="fas fa-list-check text-[20px] text-blue-600"
+            ></i>
+          </button>
+        </div>
+        <div class="tooltip" data-tip="Feedback">
+          <button (click)="onFeedback()"  onclick="feedback_modal.showModal()" class="btn btn-sm">
+            <i
+              class="fas fa-comment text-[20px] text-pink-600"
+            ></i>
+          </button>
+        </div>
+        <div class="tooltip" data-tip="Favorite">
+          <button (click)="onFavorite()" class="btn btn-sm">
+            <i
+              class="fas fa-heart text-[20px] text-red-600"
+            ></i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<app-feedback-modal (rating)="onFeedbackRating($event)" [book]="selectedBookForFeedback"/>
+

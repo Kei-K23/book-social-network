@@ -4,28 +4,37 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {BookRequest} from "../../../../services/models/book-request";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {RatingComponent} from "../../components/rating/rating.component";
+import {BookResponse} from "../../../../services/models/book-response";
+import {NgIf} from "@angular/common";
+import {BookTransactionResponse} from "../../../../services/models/book-transaction-response";
+import {FeedbackModalComponent} from "../../components/feedback-modal/feedback-modal.component";
 
 @Component({
   selector: 'app-book-detail',
   standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RatingComponent,
+    NgIf,
+    FeedbackModalComponent
   ],
   templateUrl: './book-detail.component.html',
   styleUrl: './book-detail.component.css'
 })
 export class BookDetailComponent implements OnInit{
-  book: BookRequest = {
+  book: BookResponse = {
     title: "",
     isbn: "",
     shareable: true,
     synopsis: "",
-    author: ""
+    author: "",
+    rate: 0
   };
   bookId: number | undefined;
   selectedImage: string | undefined;
-
+  selectedBookForFeedback : BookTransactionResponse = {}
 
   constructor(
     private booksService: BooksService,
@@ -49,11 +58,13 @@ export class BookDetailComponent implements OnInit{
             author: book.author as string,
             isbn: book.isbn as string,
             synopsis: book.synopsis as string,
-            shareable: book.shareable
+            shareable: book.shareable,
+            rate: book.rate,
+            owner: book.owner
           };
           if (book.coverImage) {
             this.selectedImage = "data:image/jpg;base64, " + book.coverImage;
-            this.book.coverImg = book.coverImage;
+            this.book.coverImage = book.coverImage;
           }
         },
         error: err => {
@@ -61,5 +72,21 @@ export class BookDetailComponent implements OnInit{
         }
       })
     }
+  }
+
+  onBorrow() {
+
+  }
+
+  onFeedback() {
+    this.selectedBookForFeedback.id = this.bookId
+  }
+
+  onFeedbackRating(rating: { rating: number; id: number }) {
+    this.book.rate = rating.rating;
+  }
+
+  onFavorite() {
+
   }
 }
