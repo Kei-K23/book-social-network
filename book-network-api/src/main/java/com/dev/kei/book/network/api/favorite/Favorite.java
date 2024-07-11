@@ -21,8 +21,6 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "tb_favorites")
 public class Favorite extends BaseEntity {
-    private Long bookId;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
