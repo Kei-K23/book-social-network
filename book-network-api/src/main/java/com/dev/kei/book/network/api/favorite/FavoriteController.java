@@ -1,5 +1,6 @@
 package com.dev.kei.book.network.api.favorite;
 
+import com.dev.kei.book.network.api.common.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,15 @@ public class FavoriteController {
 
     private final FavoriteService favoriteService;
 
+    @GetMapping
+    public ResponseEntity<PageResponse<FavoriteResponse>> getAllFavoriteBooksByUser(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "0", required = false) int size,
+            Authentication authentication
+    ) {
+        return ResponseEntity.ok(favoriteService.getAllFavoriteBooksByUser(page, size, authentication));
+    }
+
     @PostMapping("/{book-id}")
     public ResponseEntity<Long> save(
             @PathVariable("book-id") Long bookId,
@@ -22,5 +32,13 @@ public class FavoriteController {
 
         return  ResponseEntity.status(HttpStatus.CREATED)
                 .body(favoriteService.save(bookId, authentication));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(
+            @PathVariable("id") Long id
+    ) {
+        favoriteService.delete(id);
+        return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
