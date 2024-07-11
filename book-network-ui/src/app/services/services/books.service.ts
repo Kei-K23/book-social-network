@@ -26,6 +26,8 @@ import { getAllReturnedBooksByOwner } from '../fn/books/get-all-returned-books-b
 import { GetAllReturnedBooksByOwner$Params } from '../fn/books/get-all-returned-books-by-owner';
 import { getBookById } from '../fn/books/get-book-by-id';
 import { GetBookById$Params } from '../fn/books/get-book-by-id';
+import { getBookByName } from '../fn/books/get-book-by-name';
+import { GetBookByName$Params } from '../fn/books/get-book-by-name';
 import { PageResponseBookResponse } from '../models/page-response-book-response';
 import { PageResponseBookTransactionResponse } from '../models/page-response-book-transaction-response';
 import { returnBorrowedBook } from '../fn/books/return-borrowed-book';
@@ -296,6 +298,31 @@ export class BooksService extends BaseService {
   deleteBookById(params: DeleteBookById$Params, context?: HttpContext): Observable<void> {
     return this.deleteBookById$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
+
+  /** Path part for operation `getBookByName()` */
+  static readonly GetBookByNamePath = '/books/search';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getBookByName()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getBookByName$Response(params?: GetBookByName$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseBookResponse>> {
+    return getBookByName(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getBookByName$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getBookByName(params?: GetBookByName$Params, context?: HttpContext): Observable<PageResponseBookResponse> {
+    return this.getBookByName$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PageResponseBookResponse>): PageResponseBookResponse => r.body)
     );
   }
 

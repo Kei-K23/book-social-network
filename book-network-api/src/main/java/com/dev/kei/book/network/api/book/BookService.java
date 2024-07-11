@@ -304,7 +304,7 @@ public class BookService {
     public PageResponse<BookResponse> getBookByName(String name, int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<Book> bookTransactionHistories = bookTransactionRepository
+        Page<Book> bookTransactionHistories = bookRepository
                 .findAllBookByName(pageable, name);
 
         // Map to book transaction lists to book transaction response

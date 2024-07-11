@@ -41,7 +41,7 @@ export class FeedbackModalComponent {
     this._book = {};
   }
 
-  onSubmit() {
+    onSubmit() {
     this.feedbacksService.save({
       body : {
         bookId: this._book.id!,

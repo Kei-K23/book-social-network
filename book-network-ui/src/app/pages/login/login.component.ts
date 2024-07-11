@@ -30,10 +30,13 @@ export class LoginComponent {
   ) {
   }
 
-  login() {
+    login(email: string, password: string) {
     this.authService.login(
       {
-        body: this.authRequest
+        body: {
+          email,
+          password
+        }
       }
     ).subscribe({
       next: res => {

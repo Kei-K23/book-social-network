@@ -10,16 +10,18 @@ import {JwtTokenService} from "../../../../services/jwt-token/jwt-token.service"
 import {FeedbackModalComponent} from "../../components/feedback-modal/feedback-modal.component";
 import {BookTransactionResponse} from "../../../../services/models/book-transaction-response";
 import {Router} from "@angular/router";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-book-list',
   standalone: true,
-    imports: [
-        NgForOf,
-        BookCardComponent,
-        NgxPaginationModule,
-        FeedbackModalComponent
-    ],
+  imports: [
+    NgForOf,
+    BookCardComponent,
+    NgxPaginationModule,
+    FeedbackModalComponent,
+    FormsModule
+  ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css'
 })
@@ -104,5 +106,22 @@ export class BookListComponent implements OnInit{
       }
       return b;
     });
+  }
+
+  onSearch(name: string) {
+    if (name === "" || !name) {
+      this.findAllBooks();
+      return;
+    }
+    this.bookService.getBookByName({
+      "book-name": name,
+      size: this.size,
+      page: this.page !== 0 ? this.page - 1 : 0
+    }).subscribe({
+      next: value => {
+        this.bookResponse = value;
+      },
+      error: err => this.toastr.error(err.error.error)
+    })
   }
 }
