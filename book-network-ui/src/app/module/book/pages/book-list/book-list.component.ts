@@ -11,6 +11,7 @@ import {FeedbackModalComponent} from "../../components/feedback-modal/feedback-m
 import {BookTransactionResponse} from "../../../../services/models/book-transaction-response";
 import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
+import {FavoritesService} from "../../../../services/services/favorites.service";
 
 @Component({
   selector: 'app-book-list',
@@ -35,6 +36,7 @@ export class BookListComponent implements OnInit{
 
   constructor(
     private bookService : BooksService,
+    private favoritesService: FavoritesService,
     private toastr: ToastrService,
     private jwtTokenService : JwtTokenService,
     private router : Router
@@ -123,5 +125,16 @@ export class BookListComponent implements OnInit{
       },
       error: err => this.toastr.error(err.error.error)
     })
+  }
+
+  onFavorite(book: BookResponse) {
+    this.favoritesService.save1(
+      {
+        "book-id": book.id!
+      }
+    ).subscribe({
+      next: value => this.toastr.success("Successfully added the book to favorite list"),
+      error: err => this.toastr.error(err.error.error)
+    });
   }
 }

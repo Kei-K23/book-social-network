@@ -6,6 +6,7 @@
 
 <div class="grid grid-cols-4 gap-8 px-10 my-10">
   <app-book-card
+    (addToFavorite)="onFavorite($event)"
     (borrow)="borrowBook($event)"
     (feedback)="onFeedback($event)"
     (edit)="onEdit($event)"

@@ -8,6 +8,7 @@ import {BookResponse} from "../../../../services/models/book-response";
 import {NgIf} from "@angular/common";
 import {BookTransactionResponse} from "../../../../services/models/book-transaction-response";
 import {FeedbackModalComponent} from "../../components/feedback-modal/feedback-modal.component";
+import {FavoritesService} from "../../../../services/services/favorites.service";
 
 @Component({
   selector: 'app-book-detail',
@@ -37,6 +38,7 @@ export class BookDetailComponent implements OnInit{
 
   constructor(
     private booksService: BooksService,
+    private favoritesService: FavoritesService,
     private router: Router,
     private activeRoute: ActivatedRoute,
     private toastr: ToastrService
@@ -104,7 +106,14 @@ export class BookDetailComponent implements OnInit{
     this.book.rate = rating.rating;
   }
 
-  onFavorite() {
-
+  onFavorite(id: number | undefined) {
+    this.favoritesService.save1(
+      {
+        "book-id": id!
+      }
+    ).subscribe({
+      next: value => this.toastr.success("Successfully added the book to favorite list"),
+      error: err => this.toastr.error(err.error.error)
+    });
   }
 }

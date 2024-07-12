@@ -33,7 +33,6 @@ export class BookCardComponent {
 
   }
 
-
   @Input()
   set book(value: BookResponse) {
     this._book = value;
