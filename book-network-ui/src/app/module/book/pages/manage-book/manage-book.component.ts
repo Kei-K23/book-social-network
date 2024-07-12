@@ -88,7 +88,7 @@ export class ManageBookComponent implements OnInit {
     }
     console.log(req);
 
-    this.booksService.save1({
+    this.booksService.save2({
       body: req
     }).subscribe({
       next: value => {

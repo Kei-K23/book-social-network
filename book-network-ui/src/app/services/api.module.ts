@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { FeedbacksService } from './services/feedbacks.service';
+import { FavoritesService } from './services/favorites.service';
 import { BooksService } from './services/books.service';
 import { AuthenticationService } from './services/authentication.service';
 
@@ -17,6 +18,7 @@ import { AuthenticationService } from './services/authentication.service';
   declarations: [],
   providers: [
     FeedbacksService,
+    FavoritesService,
     BooksService,
     AuthenticationService,
     ApiConfiguration

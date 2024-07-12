@@ -6,16 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { BookRequest } from '../../models/book-request';
 
 export interface Save1$Params {
-      body: BookRequest
+  'book-id': number;
 }
 
 export function save1(http: HttpClient, rootUrl: string, params: Save1$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
   const rb = new RequestBuilder(rootUrl, save1.PATH, 'post');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('book-id', params['book-id'], {});
   }
 
   return http.request(
@@ -28,4 +27,4 @@ export function save1(http: HttpClient, rootUrl: string, params: Save1$Params, c
   );
 }
 
-save1.PATH = '/books';
+save1.PATH = '/favorites/{book-id}';
