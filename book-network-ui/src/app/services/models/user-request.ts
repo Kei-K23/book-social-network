@@ -6,6 +6,6 @@ export interface UserRequest {
   firstName: string;
   id?: number;
   lastName: string;
-  password: string;
+  password?: string;
   profilePicture?: Array<string>;
 }

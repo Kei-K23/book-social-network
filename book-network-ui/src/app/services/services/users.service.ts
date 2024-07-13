@@ -15,6 +15,8 @@ import { getLoginUser } from '../fn/users/get-login-user';
 import { GetLoginUser$Params } from '../fn/users/get-login-user';
 import { updateLoginUser } from '../fn/users/update-login-user';
 import { UpdateLoginUser$Params } from '../fn/users/update-login-user';
+import { uploadProfilePicture } from '../fn/users/upload-profile-picture';
+import { UploadProfilePicture$Params } from '../fn/users/upload-profile-picture';
 import { UserResponse } from '../models/user-response';
 
 @Injectable({ providedIn: 'root' })
@@ -95,6 +97,35 @@ export class UsersService extends BaseService {
   deleteLoginUser(params?: DeleteLoginUser$Params, context?: HttpContext): Observable<void> {
     return this.deleteLoginUser$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
+
+  /** Path part for operation `uploadProfilePicture()` */
+  static readonly UploadProfilePicturePath = '/me/profile-upload';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `uploadProfilePicture()` instead.
+   *
+   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
+   */
+  uploadProfilePicture$Response(params?: UploadProfilePicture$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+    return uploadProfilePicture(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `uploadProfilePicture$Response()` instead.
+   *
+   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
+   */
+  uploadProfilePicture(params?: UploadProfilePicture$Params, context?: HttpContext): Observable<{
+}> {
+    return this.uploadProfilePicture$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+}>): {
+} => r.body)
     );
   }
 

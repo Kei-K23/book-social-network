@@ -1,9 +1,9 @@
 package com.dev.kei.book.network.api.user;
 
+import com.dev.kei.book.network.api.CustomAnnotation.OptionalPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,7 @@ public class UserRequest {
     @NotBlank(message = "Email cannot be blank")
     @NotNull(message = "Email cannot be null")
     private String email;
-    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @OptionalPassword
     private String password;
     private String bio;
     private byte[] profilePicture;
