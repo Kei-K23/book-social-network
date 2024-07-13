@@ -2,7 +2,7 @@
 [class.shareable]="book.shareable" [class.archived]="book.archived"
 >
   <figure>
-    <img class="w-full h-[260px]" [src]="bookCover" alt="Book Cover Image" />
+    <img class="w-full h-[260px] border" [src]="bookCover" alt="Book Cover Image" />
   </figure>
   <div class="card-body">
     <h2 class="card-title line-clamp-1">{{ book.title }}</h2>
@@ -10,7 +10,7 @@
     <h3 class="truncate">ISBN: {{ book.isbn }}</h3>
     <h3 class="truncate">Owner: {{ book.owner }}</h3>
     <hr />
-    <p class="line-clamp-3">{{ book.synopsis }}</p>
+    <p class="line-clamp-3 h-[75px]">{{ book.synopsis }}</p>
     <hr />
     <div class="flex items-center gap-2">
       <app-rating [rate]="book.rate || 0" />
