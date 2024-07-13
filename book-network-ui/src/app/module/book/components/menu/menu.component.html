@@ -15,7 +15,7 @@
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full" *ngIf="userResponse.profilePicture">
-          <img [alt]="userResponse.firstName" [src]="userResponse.profilePicture" />
+          <img [alt]="userResponse.firstName" [src]="'data:image/jpg;base64, ' + userResponse.profilePicture" />
         </div>
         <div class="bg-neutral text-neutral-content w-10 rounded-full" *ngIf="!userResponse.profilePicture">
           <span class="text-3xl">{{userResponse.firstName?.charAt(0)}}</span>

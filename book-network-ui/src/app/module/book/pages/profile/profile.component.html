@@ -3,7 +3,7 @@
     <div>
       <div class="avatar flex justify-center" *ngIf="userResponse.profilePicture">
         <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring ring-offset-2">
-          <img [alt]="userResponse.firstName" [src]="userResponse.profilePicture" />
+          <img [alt]="userResponse.firstName" [src]="'data:image/jpg;base64, ' + userResponse.profilePicture" />
         </div>
       </div>
       <div class="avatar placeholder flex justify-center" *ngIf="!userResponse.profilePicture">
