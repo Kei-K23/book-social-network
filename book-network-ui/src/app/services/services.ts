@@ -1,3 +1,4 @@
+export { UsersService } from './services/users.service';
 export { FeedbacksService } from './services/feedbacks.service';
 export { FavoritesService } from './services/favorites.service';
 export { BooksService } from './services/books.service';

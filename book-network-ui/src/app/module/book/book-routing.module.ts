@@ -9,6 +9,7 @@ import {FavoriteComponent} from "./pages/favorite/favorite.component";
 import {authGuard} from "../../services/guard/auth/auth.guard";
 import {ManageBookComponent} from "./pages/manage-book/manage-book.component";
 import {BookDetailComponent} from "./pages/book-detail/book-detail.component";
+import {ProfileComponent} from "./pages/profile/profile.component";
 
 const routes: Routes = [
   {
@@ -56,8 +57,14 @@ const routes: Routes = [
         component: BorrowedComponent,
         canActivate: [authGuard],
       },
+      {
+        path: "profile/me",
+        component: ProfileComponent,
+        canActivate: [authGuard]
+      }
     ],
-  }
+  },
+
 ];
 
 @NgModule({

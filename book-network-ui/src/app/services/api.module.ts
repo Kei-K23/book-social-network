@@ -4,6 +4,7 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
+import { UsersService } from './services/users.service';
 import { FeedbacksService } from './services/feedbacks.service';
 import { FavoritesService } from './services/favorites.service';
 import { BooksService } from './services/books.service';
@@ -17,6 +18,7 @@ import { AuthenticationService } from './services/authentication.service';
   exports: [],
   declarations: [],
   providers: [
+    UsersService,
     FeedbacksService,
     FavoritesService,
     BooksService,
