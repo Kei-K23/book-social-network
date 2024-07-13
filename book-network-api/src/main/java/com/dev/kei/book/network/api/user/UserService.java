@@ -66,25 +66,22 @@ public class UserService {
         user.setBio(request.getBio());
 
         // If user email and password are changed, generate jwt token again
-        if (!Objects.equals(user.getEmail(), request.getEmail()) ||
-                !Objects.equals(user.getPassword(), request.getPassword())) {
-            // Update the email
-            if (!Objects.equals(user.getEmail(), request.getEmail())) {
-                user.setEmail(request.getEmail());
-            }
-            // Update the password
-            if (!Objects.equals(user.getPassword(), request.getPassword())) {
-                user.setPassword(passwordEncoder.encode(request.getPassword()));
-            }
-
-            // Add login user fullName to claim to use in token
-            claims.put("fullName", user.getFullName());
-            claims.put("userId", user.getId());
-
-            // Generate new token with user updated information
-            String token = jwtService.generateToken(claims, user);
-            userResponse.setUpdatedJWT(token);
+        // Update the email
+        if (!Objects.equals(user.getEmail(), request.getEmail())) {
+            user.setEmail(request.getEmail());
         }
+        // Update the password
+        if (!Objects.equals(user.getPassword(), request.getPassword())) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+
+        // Add login user fullName to claim to use in token
+        claims.put("fullName", user.getFullName());
+        claims.put("userId", user.getId());
+
+        // Generate new token with user updated information
+        String token = jwtService.generateToken(claims, user);
+        userResponse.setUpdatedJWT(token);
 
         // If profile picture exist in request
         if (request.getProfilePicture() != null) {
@@ -103,6 +100,7 @@ public class UserService {
         userResponse.setEmail(user.getEmail());
         userResponse.setCreatedAt(user.getCreatedAt());
         userResponse.setUpdatedAt(user.getUpdatedAt());
+        userResponse.setProfilePicture(FileUtils.readFileFromLocation(user.getProfilePicture()));
 
         // Save user data changes
         userRepository.save(user);
@@ -119,7 +117,6 @@ public class UserService {
         }
         userRepository.deleteById(user.getId());
     }
-
 
     public void uploadProfilePicture(MultipartFile file, Authentication authentication) {
         // Get authenticated user

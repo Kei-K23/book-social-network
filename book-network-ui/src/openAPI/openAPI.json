@@ -982,8 +982,6 @@
             "type": "string"
           },
           "password": {
-            "maxLength": 2147483647,
-            "minLength": 8,
             "type": "string"
           },
           "bio": {

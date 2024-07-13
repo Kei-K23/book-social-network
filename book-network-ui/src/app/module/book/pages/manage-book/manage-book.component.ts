@@ -86,8 +86,6 @@ export class ManageBookComponent implements OnInit {
     } else {
       req = this.bookRequest
     }
-    console.log(req);
-
     this.booksService.save2({
       body: req
     }).subscribe({
@@ -105,6 +103,7 @@ export class ManageBookComponent implements OnInit {
             },
             error: err => {
               this.toastr.error(err.error.error);
+              return;
             }
           })
         }

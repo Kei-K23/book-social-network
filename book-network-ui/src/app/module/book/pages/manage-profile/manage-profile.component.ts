@@ -27,7 +27,7 @@ export class ManageProfileComponent implements OnInit{
     bio: ""
   };
   confirmPassword: string = "";
-  selectedCoverImg: any;
+  selectedProfileImg: any;
   selectedImage: string | undefined;
 
   constructor(
@@ -50,10 +50,10 @@ export class ManageProfileComponent implements OnInit{
         this.userRequest.lastName = value.lastName!;
         this.userRequest.bio = value.bio!;
         this.userRequest.email = value.email!;
-
         if (value.profilePicture) {
           this.selectedImage = "data:image/jpg;base64, " + value.profilePicture;
           this.userRequest.profilePicture = value.profilePicture;
+          console.log("Profile :" + value.profilePicture);
         }
       },
       error: err => this.toastr.error(err.error.error)
@@ -61,13 +61,13 @@ export class ManageProfileComponent implements OnInit{
   }
 
   onFileSelected($event: any) {
-    this.selectedCoverImg = $event.target.files[0];
-    if (this.selectedCoverImg) {
+    this.selectedProfileImg = $event.target.files[0];
+    if (this.selectedProfileImg) {
       const reader = new FileReader();
       reader.onload = () => {
         this.selectedImage = reader.result as string;
       };
-      reader.readAsDataURL(this.selectedCoverImg);
+      reader.readAsDataURL(this.selectedProfileImg);
     }
   }
 
@@ -86,6 +86,21 @@ export class ManageProfileComponent implements OnInit{
           this.localStorageService.setLocalStorage(KEYS.JWT_KEY, value.updatedJWT as string);
         }
         this.toastr.success("Successfully updated the profile");
+        if (this.selectedProfileImg) {
+          this.usersService.uploadProfilePicture({
+            body: {
+              file: this.selectedProfileImg
+            }
+          }).subscribe({
+            next: v => {
+              this.toastr.success("User profile image uploaded successfully");
+            },
+            error: err => {
+              this.toastr.error(err.error.error);
+              return;
+            }
+          })
+        }
         // Navigate back to profile page
         this.router.navigate(["/books/profile/me"]);
       },
@@ -104,7 +119,7 @@ export class ManageProfileComponent implements OnInit{
     };
     this.selectedImage = "";
     this.confirmPassword = "";
-    this.selectedCoverImg = undefined;
+    this.selectedProfileImg = undefined;
     this.router.navigate(['/books/profile/me']);
   }
 }
