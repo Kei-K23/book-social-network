@@ -13,8 +13,6 @@ import {BookResponse} from "../../../../services/models/book-response";
 import {FeedbackModalComponent} from "../../components/feedback-modal/feedback-modal.component";
 import {BookTransactionResponse} from "../../../../services/models/book-transaction-response";
 import {FavoritesService} from "../../../../services/services/favorites.service";
-import {LocalStorageService} from "../../../../services/localStorage/local-storage.service";
-import {KEYS} from "../../../../constants/keys";
 import {JwtTokenService} from "../../../../services/jwt-token/jwt-token.service";
 
 @Component({
