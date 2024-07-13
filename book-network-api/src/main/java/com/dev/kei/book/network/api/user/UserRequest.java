@@ -1,6 +1,5 @@
 package com.dev.kei.book.network.api.user;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,4 +26,6 @@ public class UserRequest {
     @NotNull(message = "Password cannot be null")
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
+    private String bio;
+    private byte[] profilePicture;
 }

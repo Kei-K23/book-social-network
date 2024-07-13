@@ -26,9 +26,8 @@ public class UserResponse {
     private String firstName;
     private String lastName;
     private String email;
-    private List<Role> roles;
-    private List<Book> books;
-    private List<BookTransactionHistory> bookTransitionHistories;
+    private String bio;
+    private byte[] profilePicture;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

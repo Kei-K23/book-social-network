@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -33,4 +34,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             """
     )
     Page<Book> findAllBookByName(Pageable pageable, @Param("name") String name);
+
+    @Query(
+            """
+            SELECT b
+            FROM Book b
+            WHERE b.owner.id = :ownerId
+            """
+    )
+    List<Book> findAllBooksByOwnerId(@Param("ownerId") Long ownerId);
 }

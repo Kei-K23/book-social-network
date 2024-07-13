@@ -36,6 +36,8 @@ public class User implements UserDetails, Principal {
     private String lastName;
     @Column(unique = true)
     private String email;
+    private String bio;
+    private String profilePicture;
     private String password;
     private boolean isEnabled;
     private boolean isAccountLocked;

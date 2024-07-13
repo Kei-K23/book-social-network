@@ -10,9 +10,7 @@ public class UserMapper {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                .roles(user.getRoles())
-                .books(user.getBooks())
-                .bookTransitionHistories(user.getBookTransitionHistories())
+                .bio(user.getBio())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .build();
