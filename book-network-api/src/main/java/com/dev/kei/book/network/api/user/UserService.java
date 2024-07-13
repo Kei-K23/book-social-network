@@ -6,6 +6,7 @@ import com.dev.kei.book.network.api.file.FileStorageService;
 import com.dev.kei.book.network.api.file.FileUtils;
 import com.dev.kei.book.network.api.security.JwtService;
 import com.dev.kei.book.network.api.transactionHistory.BookTransactionRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -131,5 +132,12 @@ public class UserService {
         // Save user profile image to database
         user.setProfilePicture(profileImageFile);
         userRepository.save(user);
+    }
+
+    public UserResponse getUserById(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException("User not found with id: " + userId)
+        );
+        return userMapper.toUserResponse(user);
     }
 }

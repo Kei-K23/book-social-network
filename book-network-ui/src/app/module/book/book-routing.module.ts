@@ -11,6 +11,7 @@ import {ManageBookComponent} from "./pages/manage-book/manage-book.component";
 import {BookDetailComponent} from "./pages/book-detail/book-detail.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
 import {ManageProfileComponent} from "./pages/manage-profile/manage-profile.component";
+import {OtherProfileComponent} from "./pages/other-profile/other-profile.component";
 
 const routes: Routes = [
   {
@@ -61,6 +62,11 @@ const routes: Routes = [
       {
         path: "profile/me",
         component: ProfileComponent,
+        canActivate: [authGuard]
+      },
+      {
+        path: "profile/:id",
+        component: OtherProfileComponent,
         canActivate: [authGuard]
       },
       {

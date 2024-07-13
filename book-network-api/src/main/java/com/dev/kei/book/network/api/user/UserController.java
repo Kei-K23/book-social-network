@@ -22,6 +22,13 @@ public class UserController {
         return ResponseEntity.ok(userService.getLoginUser(authentication));
     }
 
+    @GetMapping( "/{user-id}")
+    public ResponseEntity<UserResponse> getUserById(
+            @PathVariable("user-id") Long userId
+    ) {
+        return ResponseEntity.ok(userService.getUserById(userId));
+    }
+
     @PutMapping("/me")
     public ResponseEntity<UserResponse> updateLoginUser(
             @RequestBody @Valid UserRequest request,

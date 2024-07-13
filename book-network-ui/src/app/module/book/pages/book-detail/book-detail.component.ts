@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BooksService} from "../../../../services/services/books.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RatingComponent} from "../../components/rating/rating.component";
@@ -39,7 +39,6 @@ export class BookDetailComponent implements OnInit{
   constructor(
     private booksService: BooksService,
     private favoritesService: FavoritesService,
-    private router: Router,
     private activeRoute: ActivatedRoute,
     private toastr: ToastrService
   ) {
