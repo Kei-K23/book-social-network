@@ -31,7 +31,7 @@ import {Router, RouterLink} from "@angular/router";
 export class ProfileComponent implements OnInit{
     bookResponse : PageResponseBookResponse = {}
     page: number = 1;
-    size: number = 5;
+    size: number = 8;
     userResponse: UserResponse = {};
     dateFormatter : DateFormatterService;
 

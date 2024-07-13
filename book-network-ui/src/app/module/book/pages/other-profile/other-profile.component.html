@@ -1,1 +1,50 @@
-<p>other-profile works!</p>
+<div class="flex justify-center items-start">
+  <div class="mt-10">
+    <div>
+      <div class="avatar flex justify-center" *ngIf="userResponse.profilePicture">
+        <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring ring-offset-2">
+          <img [alt]="userResponse.firstName" [src]="'data:image/jpg;base64, ' + userResponse.profilePicture" />
+        </div>
+      </div>
+      <div class="avatar placeholder flex justify-center" *ngIf="!userResponse.profilePicture">
+        <div class="bg-neutral text-neutral-content w-24 rounded-full">
+          <span class="text-3xl">{{userResponse.firstName?.charAt(0)}}</span>
+        </div>
+      </div>
+      <div class="mt-5 flex gap-4 items-center justify-center">
+        <h2 class="text-center text-2xl md:text-3xl font-bold capitalize">{{ userResponse.lastName ? userResponse.firstName + " " + userResponse.lastName: userResponse.firstName }}</h2>
+        <a *ngIf="isAuthUser" [routerLink]="['/books/profile/me/edit']" class="btn btn-ghost btn-sm">
+          <i class="fas fa-user-edit"></i>
+        </a>
+      </div>
+      <p class="mt-3 text-center text-lg">{{ userResponse.email }}</p>
+      <p class="mt-3 text-center text-lg w-[200px] md:w-[580px]">{{ userResponse.bio || "User have not Bio" }}</p>
+      <p class="mt-3 text-center text-gray-500 text-[16px]">Created At: {{ dateFormatter.formatDate(userResponse.createdAt!, "DD-MM-YYYY")  }}</p>
+      <p class="mt-3 text-center text-gray-500 text-[16px]">Modified At: {{ dateFormatter.formatDate(userResponse.updatedAt!, "DD-MM-YYYY")  }}</p>
+    </div>
+  </div>
+</div>
+<div class="my-10">
+  <h3 class="text-center text-xl my-8">My Books</h3>
+  <div class="grid grid-cols-4 gap-8 px-10 my-10">
+    <app-book-card
+      (addToFavorite)="onFavorite($event)"
+      (borrow)="borrowBook($event)"
+      (feedback)="onFeedback($event)"
+      (edit)="onEdit($event)"
+      [book]="book" *ngFor="let book of bookResponse.content! |
+    paginate: {
+    itemsPerPage: size,
+    currentPage: page,
+    totalItems: bookResponse.totalElements
+    }"
+      [manage]="isAuthUser"
+    />
+  </div>
+
+  <app-feedback-modal (rating)="onFeedbackRating($event)" [book]="selectedBookForFeedback"/>
+
+  <div class="mt-5 mb-10 flex justify-center items-center">
+    <pagination-controls (pageChange)="pageChange($event)" [responsive]="true"></pagination-controls>
+  </div>
+</div>

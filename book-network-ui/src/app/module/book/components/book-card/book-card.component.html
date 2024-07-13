@@ -8,7 +8,7 @@
     <h2 class="card-title line-clamp-1">{{ book.title }}</h2>
     <h3 class="truncate">Author: {{ book.author }}</h3>
     <h3 class="truncate">ISBN: {{ book.isbn }}</h3>
-    <h3 class="truncate">Owner: {{ book.owner }}</h3>
+    <a [routerLink]="['/books/profile/' + book.ownerId]" class="truncate hover:text-primary">Owner: {{ book.owner }}</a>
     <hr />
     <p class="line-clamp-3 h-[75px]">{{ book.synopsis }}</p>
     <hr />

@@ -10,6 +10,9 @@
     (borrow)="borrowBook($event)"
     (feedback)="onFeedback($event)"
     (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
+    (archive)="onArchive($event)"
+    (share)="onShare($event)"
     [book]="book" *ngFor="let book of bookResponse.content! |
     paginate: {
     itemsPerPage: size,

@@ -4,6 +4,7 @@ import com.dev.kei.book.network.api.common.PageResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -91,6 +92,15 @@ public class BookController {
             Authentication authentication
     ) {
         return ResponseEntity.ok(bookService.getAllBooksByOwner(page, size, authentication));
+    }
+
+    @GetMapping("/owner/{owner-id}")
+    public ResponseEntity<PageResponse<BookResponse>> getAllBooksByOwnerId(
+            @PathParam(value = "owner-id") Long ownerId,
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "0", required = false) int size
+    ) {
+        return ResponseEntity.ok(bookService.getAllBooksByOwnerId(ownerId, page, size));
     }
 
     @GetMapping("/borrowed")

@@ -43,4 +43,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             """
     )
     List<Book> findAllBooksByOwnerId(@Param("ownerId") Long ownerId);
+
+    @Query(
+            """
+            SELECT b
+            FROM Book b
+            WHERE b.owner.id = :userId
+            """
+    )
+    Page<Book> findAllBooksByUserId(Pageable pageable, @Param("userId") Long userId);
 }

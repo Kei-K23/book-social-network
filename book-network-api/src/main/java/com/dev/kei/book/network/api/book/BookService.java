@@ -321,4 +321,22 @@ public class BookService {
                 bookTransactionHistories.isFirst(),
                 bookTransactionHistories.isLast());
     }
+
+    public PageResponse<BookResponse> getAllBooksByOwnerId(Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Book> books = bookRepository.findAllBooksByUserId(pageable, userId);
+
+        // Map to book lists to BookResponse
+        List<BookResponse> bookResponses = books.stream().map(bookMapper::toBookResponse).toList();
+
+        // Return PageResponse for book response
+        return new PageResponse<>(
+                bookResponses,
+                books.getNumber(),
+                books.getSize(),
+                books.getTotalElements(),
+                books.getTotalPages(),
+                books.isFirst(),
+                books.isLast());
+    }
 }

@@ -20,6 +20,8 @@ import { getAllBooks } from '../fn/books/get-all-books';
 import { GetAllBooks$Params } from '../fn/books/get-all-books';
 import { getAllBooksByOwner } from '../fn/books/get-all-books-by-owner';
 import { GetAllBooksByOwner$Params } from '../fn/books/get-all-books-by-owner';
+import { getAllBooksByOwnerId } from '../fn/books/get-all-books-by-owner-id';
+import { GetAllBooksByOwnerId$Params } from '../fn/books/get-all-books-by-owner-id';
 import { getAllBorrowedBooksByOwner } from '../fn/books/get-all-borrowed-books-by-owner';
 import { GetAllBorrowedBooksByOwner$Params } from '../fn/books/get-all-borrowed-books-by-owner';
 import { getAllReturnedBooksByOwner } from '../fn/books/get-all-returned-books-by-owner';
@@ -372,6 +374,31 @@ export class BooksService extends BaseService {
    */
   getAllBooksByOwner(params?: GetAllBooksByOwner$Params, context?: HttpContext): Observable<PageResponseBookResponse> {
     return this.getAllBooksByOwner$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PageResponseBookResponse>): PageResponseBookResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `getAllBooksByOwnerId()` */
+  static readonly GetAllBooksByOwnerIdPath = '/books/owner/{owner-id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllBooksByOwnerId()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllBooksByOwnerId$Response(params: GetAllBooksByOwnerId$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseBookResponse>> {
+    return getAllBooksByOwnerId(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAllBooksByOwnerId$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllBooksByOwnerId(params: GetAllBooksByOwnerId$Params, context?: HttpContext): Observable<PageResponseBookResponse> {
+    return this.getAllBooksByOwnerId$Response(params, context).pipe(
       map((r: StrictHttpResponse<PageResponseBookResponse>): PageResponseBookResponse => r.body)
     );
   }

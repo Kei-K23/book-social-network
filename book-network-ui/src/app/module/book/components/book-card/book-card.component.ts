@@ -2,14 +2,15 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BookResponse} from "../../../../services/models/book-response";
 import {NgIf} from "@angular/common";
 import {RatingComponent} from "../rating/rating.component";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-book-card',
   standalone: true,
   imports: [
     NgIf,
-    RatingComponent
+    RatingComponent,
+    RouterLink
   ],
   templateUrl: './book-card.component.html',
   styleUrl: './book-card.component.css'

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BooksService} from "../../../../services/services/books.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RatingComponent} from "../../components/rating/rating.component";
@@ -40,7 +40,8 @@ export class BookDetailComponent implements OnInit{
     private booksService: BooksService,
     private favoritesService: FavoritesService,
     private activeRoute: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {
   }
 
@@ -90,11 +91,14 @@ export class BookDetailComponent implements OnInit{
         this.toastr.success('Successfully borrowed the book');
       },
       error: err => {
-        console.log(err)
         // Error borrowed book
         this.toastr.error(err.error.error);
       }
     })
+  }
+
+  onEdit() {
+    this.router.navigate([`/books/edit/${this.book.id}`])
   }
 
   onFeedback() {
@@ -113,6 +117,85 @@ export class BookDetailComponent implements OnInit{
     ).subscribe({
       next: value => this.toastr.success("Successfully added the book to favorite list"),
       error: err => this.toastr.error(err.error.error)
+    });
+  }
+
+  onShare() {
+    if (!this.book || this.book.id === undefined) {
+      this.toastr.error("Cannot update book shareable status");
+    }
+
+    this.booksService.updateShareableStatus({
+      "book-id": this.book.id!
+    }).subscribe({
+      next: value => {
+        if (this.book.archived) {
+          this.booksService.updateArchivedStatus({
+            "book-id": this.book.id!
+          }).subscribe({
+            next: value1 => {
+              // Implement something
+            },
+            error: err =>  this.toastr.error(err.error.error)
+          })
+        }
+
+        this.book.shareable = !this.book.shareable;
+        this.book.archived = !this.book.archived;
+        this.toastr.success("Book shareable status updated successfully");
+      },
+      error: err => {
+        this.toastr.error(err.error.error);
+      }
+    });
+  }
+
+  onArchive() {
+    if (!this.book || this.book.id === undefined) {
+      this.toastr.error("Cannot update book archive status");
+    }
+
+    this.booksService.updateArchivedStatus({
+      "book-id": this.book.id!
+    }).subscribe({
+      next: value => {
+        if (this.book.shareable) {
+          this.booksService.updateShareableStatus({
+            "book-id": this.book.id!
+          }).subscribe({
+            next: value1 => {
+              // Implement something
+            },
+            error: err =>  this.toastr.error(err.error.error)
+          })
+        }
+        this.book.shareable = !this.book.shareable;
+        this.book.archived = !this.book.archived;
+        this.toastr.success("Book archive status updated successfully");
+      },
+      error: err => {
+        this.toastr.error(err.error.error);
+      }
+    });
+  }
+
+  onDelete() {
+    if (!this.book || this.book.id === undefined) {
+      this.toastr.error("Cannot delete the book");
+    }
+
+    this.booksService.deleteBookById({
+      "book-id": this.book.id!
+    }).subscribe({
+      next: value => {
+        // Remove the item also from client state
+        this.toastr.success("Book with id " + this.book.id + " deleted successfully");
+
+        this.router.navigate(["/books"]);
+      },
+      error: err => {
+        this.toastr.error(err.error.error);
+      }
     });
   }
 }

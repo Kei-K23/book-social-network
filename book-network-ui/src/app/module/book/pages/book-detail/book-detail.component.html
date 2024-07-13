@@ -44,6 +44,35 @@
           </button>
         </div>
       </div>
+      <div class="flex items-center justify-between gap-3 mt-5" >
+        <div class="tooltip" data-tip="Edit">
+          <button (click)="onEdit()" class="btn btn-sm">
+            <i
+              class="fas fa-edit text-[20px] text-blue-600"
+            ></i>
+          </button>
+        </div>
+        <div class="tooltip" data-tip="Share">
+          <button (click)="onShare()" class="btn btn-sm">
+            <i
+              class=" fas fa-share-nodes text-[20px] text-green-600"
+            ></i>
+          </button>
+        </div>
+        <div class="tooltip" data-tip="Archive">
+          <button (click)="onArchive()" class="btn btn-sm">
+            <i
+              class="fas fa-archive text-[20px] text-yellow-600"
+            ></i>
+          </button>
+        </div>
+        <div class="tooltip" data-tip="Delete">
+          <button (click)="onDelete()" class="btn btn-sm">
+            <i
+              class="fas fa-trash-can text-[20px] text-red-600"
+            ></i>
+          </button>
+      </div>
     </div>
   </div>
 </div>

@@ -137,4 +137,97 @@ export class BookListComponent implements OnInit{
       error: err => this.toastr.error(err.error.error)
     });
   }
+
+  onShare(book: BookResponse) {
+    if (!book || book.id === undefined) {
+      this.toastr.error("Cannot update book shareable status");
+    }
+
+    this.bookService.updateShareableStatus({
+      "book-id": book.id!
+    }).subscribe({
+      next: value => {
+        if (book.archived) {
+          this.bookService.updateArchivedStatus({
+            "book-id": book.id!
+          }).subscribe({
+            next: value1 => {
+              // Update shareable state in client site
+              this.bookResponse.content = this.bookResponse.content?.map(b => {
+                if (b.id === book.id) {
+                  b.shareable = !b.shareable;
+                }
+                return b;
+              });
+            },
+            error: err =>  this.toastr.error(err.error.error)
+          })
+        }
+
+        book.shareable = !book.shareable;
+        book.archived = !book.archived;
+        this.toastr.success("Book shareable status updated successfully");
+      },
+      error: err => {
+        this.toastr.error(err.error.error);
+      }
+    });
+  }
+
+  onArchive(book: BookResponse) {
+    if (!book || book.id === undefined) {
+      this.toastr.error("Cannot update book archive status");
+    }
+
+    this.bookService.updateArchivedStatus({
+      "book-id": book.id!
+    }).subscribe({
+      next: value => {
+        if (book.shareable) {
+          this.bookService.updateShareableStatus({
+            "book-id": book.id!
+          }).subscribe({
+            next: value1 => {
+              // Update archive state in client site
+              this.bookResponse.content = this.bookResponse.content?.map(b => {
+                if (b.id === book.id) {
+                  b.archived = !b.archived;
+                }
+                return b;
+              });
+              this.bookResponse.content = this.bookResponse.content?.filter(b => b.id !== book.id);
+            },
+            error: err =>  this.toastr.error(err.error.error)
+          })
+        }
+        book.shareable = !book.shareable;
+        book.archived = !book.archived;
+        this.toastr.success("Book archive status updated successfully");
+      },
+      error: err => {
+        this.toastr.error(err.error.error);
+      }
+    });
+  }
+
+  onDelete(book : BookResponse) {
+    if (!book || book.id === undefined) {
+      this.toastr.error("Cannot delete the book");
+    }
+
+    this.bookService.deleteBookById({
+      "book-id": book.id!
+    }).subscribe({
+      next: value => {
+        // Remove the item also from client state
+        this.toastr.success("Book with id " + book.id + " deleted successfully");
+
+        // Delete
+        this.bookResponse.content = this.bookResponse.content?.filter(b => b.id !== book.id);
+      },
+      error: err => {
+        this.toastr.error(err.error.error);
+      }
+    });
+  }
 }
