@@ -20,7 +20,6 @@ import {ToastrService} from "ngx-toastr";
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  authRequest : AuthLoginRequest = {email: "", password: ""};
 
   constructor(
     private router : Router,

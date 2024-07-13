@@ -32,8 +32,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
-    private final EmailService emailService;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
     @Value("${application.mailing.account-activation-url}")
     private String accountActivationUrl;

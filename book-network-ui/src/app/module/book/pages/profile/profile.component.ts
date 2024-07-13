@@ -11,7 +11,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {PageResponseBookResponse} from "../../../../services/models/page-response-book-response";
 import {BookResponse} from "../../../../services/models/book-response";
 import {BooksService} from "../../../../services/services/books.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +22,8 @@ import {Router} from "@angular/router";
     FeedbackModalComponent,
     FormsModule,
     NgForOf,
-    NgxPaginationModule
+    NgxPaginationModule,
+    RouterLink
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'

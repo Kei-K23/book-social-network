@@ -10,6 +10,7 @@ import {authGuard} from "../../services/guard/auth/auth.guard";
 import {ManageBookComponent} from "./pages/manage-book/manage-book.component";
 import {BookDetailComponent} from "./pages/book-detail/book-detail.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
+import {ManageProfileComponent} from "./pages/manage-profile/manage-profile.component";
 
 const routes: Routes = [
   {
@@ -61,7 +62,12 @@ const routes: Routes = [
         path: "profile/me",
         component: ProfileComponent,
         canActivate: [authGuard]
-      }
+      },
+      {
+        path: "profile/me/edit",
+        component: ManageProfileComponent,
+        canActivate: [authGuard]
+      },
     ],
   },
 

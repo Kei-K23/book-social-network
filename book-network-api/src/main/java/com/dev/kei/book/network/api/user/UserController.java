@@ -1,11 +1,13 @@
 package com.dev.kei.book.network.api.user;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,5 +36,16 @@ public class UserController {
     ) {
         userService.deleteLoginUser(authentication);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "/me/profile-upload", consumes = "multipart/form-data")
+    public ResponseEntity<?> uploadProfilePicture(
+            @Parameter()
+            @RequestPart(name = "file")
+            MultipartFile file,
+            Authentication authentication
+    ) {
+        userService.uploadProfilePicture(file, authentication);
+        return ResponseEntity.accepted().build();
     }
 }

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequest {
+    private Long id;
     @NotBlank(message = "First name cannot be blank")
     @NotNull(message = "First name cannot be null")
     private String firstName;
@@ -22,8 +23,6 @@ public class UserRequest {
     @NotBlank(message = "Email cannot be blank")
     @NotNull(message = "Email cannot be null")
     private String email;
-    @NotBlank(message = "Password cannot be blank")
-    @NotNull(message = "Password cannot be null")
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
     private String bio;
