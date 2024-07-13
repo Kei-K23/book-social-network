@@ -4,8 +4,13 @@ import {RegisterComponent} from "./pages/register/register.component";
 import {AccountActivateComponent} from "./pages/account-activate/account-activate.component";
 import {authGuard} from "./services/guard/auth/auth.guard";
 import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.component";
+import {HomeComponent} from "./pages/home/home.component";
 
 export const routes: Routes = [
+  {
+    path: "",
+    component: HomeComponent
+  },
   {
     path: "login",
     component: LoginComponent
