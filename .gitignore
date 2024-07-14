@@ -5,3 +5,5 @@
 *.ipr
 /uploads
 .DS_Store
+angular.pid
+spring_boot.pid

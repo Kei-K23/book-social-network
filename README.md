@@ -12,4 +12,23 @@ BSN is book sharing and management full-stack application. User can create their
 - Tailwind + DaisyUI (Design)
 - Swagger + OpenAPI (API Documentation)
 
-### ! BSN is still in development process
+## Installation
+1. Clone the repo from GitHub
+```shell
+git clone https://github.com/Kei-K23/book-social-network.git
+cd book-social-network
+```
+
+2. First Docker install in your machine. And run following command in root directory
+```shell
+docker-compose up -d
+```
+It will install all require PostgresSQL and Maildev images.
+
+3. Change terminal directory to `book-network-ui` and install requires node modules packages 
+```shell
+cd book-network-ui
+npm install
+```
+
+4. 
