@@ -5,7 +5,7 @@
     <img class="w-full h-[260px] border" [src]="bookCover" alt="Book Cover Image" />
   </figure>
   <div class="card-body">
-    <h2 class="card-title line-clamp-1">{{ book.title }}</h2>
+    <a [routerLink]="['/books/detail/' + book.id ]" class=" hover:text-primary card-title line-clamp-1">{{ book.title }}</a>
     <h3 class="truncate">Author: {{ book.author }}</h3>
     <h3 class="truncate">ISBN: {{ book.isbn }}</h3>
     <a [routerLink]="['/books/profile/' + book.ownerId]" class="truncate hover:text-primary">Owner: {{ book.owner }}</a>

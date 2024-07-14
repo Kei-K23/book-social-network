@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BooksService} from "../../../../services/services/books.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RatingComponent} from "../../components/rating/rating.component";
@@ -9,6 +9,7 @@ import {NgIf} from "@angular/common";
 import {BookTransactionResponse} from "../../../../services/models/book-transaction-response";
 import {FeedbackModalComponent} from "../../components/feedback-modal/feedback-modal.component";
 import {FavoritesService} from "../../../../services/services/favorites.service";
+import {JwtTokenService} from "../../../../services/jwt-token/jwt-token.service";
 
 @Component({
   selector: 'app-book-detail',
@@ -18,7 +19,8 @@ import {FavoritesService} from "../../../../services/services/favorites.service"
     ReactiveFormsModule,
     RatingComponent,
     NgIf,
-    FeedbackModalComponent
+    FeedbackModalComponent,
+    RouterLink
   ],
   templateUrl: './book-detail.component.html',
   styleUrl: './book-detail.component.css'
@@ -35,18 +37,21 @@ export class BookDetailComponent implements OnInit{
   bookId: number | undefined;
   selectedImage: string | undefined;
   selectedBookForFeedback : BookTransactionResponse = {}
+  isAuthUser: boolean = false;
 
   constructor(
     private booksService: BooksService,
     private favoritesService: FavoritesService,
     private activeRoute: ActivatedRoute,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private jwtTokenService: JwtTokenService
   ) {
   }
 
   ngOnInit() {
     const bookId = this.activeRoute.snapshot.params["id"];
+
     if (bookId) {
       this.bookId = bookId;
       this.booksService.getBookById({
@@ -67,6 +72,8 @@ export class BookDetailComponent implements OnInit{
             this.selectedImage = "data:image/jpg;base64, " + book.coverImage;
             this.book.coverImage = book.coverImage;
           }
+          // Is it owner
+          this.isAuthUser = this.jwtTokenService.getValueFromJwt("userId") === +book.ownerId!;
         },
         error: err => {
           this.toastr.error(err.error.error);

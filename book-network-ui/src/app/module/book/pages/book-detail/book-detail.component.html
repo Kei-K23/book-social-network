@@ -21,7 +21,7 @@
       <p class="mt-1 text-lg">
         {{ book.synopsis }}
       </p>
-      <div class="flex items-center justify-between gap-3 mt-5" >
+      <div *ngIf="!isAuthUser" class="flex items-center justify-between gap-3 mt-5" >
         <div class="tooltip" data-tip="Borrow">
           <button (click)="onBorrow()" class="btn btn-sm">
             <i
@@ -44,7 +44,7 @@
           </button>
         </div>
       </div>
-      <div class="flex items-center justify-between gap-3 mt-5" >
+      <div *ngIf="isAuthUser" class="flex items-center justify-between gap-3 mt-5" >
         <div class="tooltip" data-tip="Edit">
           <button (click)="onEdit()" class="btn btn-sm">
             <i
