@@ -1,3 +1,12 @@
 code-input {
-  --color: #ccc;
+  --color: #111;
+  --item-spacing: 10px;
+  --item-height: 3em;
+  --item-border-bottom: 2px solid #111;
+  --item-border: 2px solid #111;
+  --item-border-bottom-has-value: 2px solid #888888;
+  --item-border-has-value: 2px solid #888888;
+  --item-border-bottom-focused: 2px solid #222;
+  --item-border-focused: 2px solid #222;
 }
+

@@ -1,6 +1,6 @@
 <div *ngIf="submitted else codeForm" class="h-full flex flex-col justify-center items-center">
   <div *ngIf="isOk else activationError" class="h-full flex flex-col justify-center items-center">
-    <div class="card bg-neutral text-neutral-content w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px]">
+    <div class="card bg-gray-300 text-gray-800 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px]">
       <div class="card-body items-center text-center">
         <h2 class="card-title mb-3 text-2xl">Account activation successful</h2>
         <p>{{ message }}</p>
@@ -10,7 +10,7 @@
   </div>
   <ng-template #activationError>
     <div class="h-full flex flex-col justify-center items-center">
-      <div class="card bg-neutral text-neutral-content w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px]">
+      <div class="card bg-gray-300 text-gray-800 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px]">
         <div class="card-body items-center text-center">
           <h2 class="card-title mb-3 text-red-400 text-2xl">Account activation fail!</h2>
           <p>{{ message }}</p>
@@ -23,7 +23,7 @@
 
 <ng-template #codeForm>
   <div class="h-full flex flex-col justify-center items-center">
-    <div class="card bg-neutral text-neutral-content w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px]">
+    <div class="card bg-gray-300 text-gray-800 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px]">
       <div class="card-body items-center text-center">
         <h2 class="card-title mb-3 text-2xl">Account activate</h2>
         <p class="mb-4">Activate your account to get full features that give by BSN.</p>

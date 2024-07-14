@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthLoginRequest} from "../../services/models/auth-login-request";
 import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
@@ -19,7 +19,7 @@ import {ToastrService} from "ngx-toastr";
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
   constructor(
     private router : Router,
@@ -29,7 +29,15 @@ export class LoginComponent {
   ) {
   }
 
-    login(email: string, password: string) {
+  ngOnInit() {
+    const jwt = this.localStorageService.getLocalStorage(KEYS.JWT_KEY);
+    if (jwt) {
+      this.router.navigate(["/books"]);
+      return;
+    }
+  }
+
+  login(email: string, password: string) {
     this.authService.login(
       {
         body: {
