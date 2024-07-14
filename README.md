@@ -31,4 +31,17 @@ cd book-network-ui
 npm install
 ```
 
-4. 
+4. Run Makefile to build, start and stop the both frontend and backend
+-  `make all`:            Build both Spring Boot and Angular projects
+-  `make clean`:         Clean both projects
+-  `make backend`:        Build Spring Boot project
+-  `make frontend`:       Build Angular project
+-  `make run`:            Run both projects
+-  `make stop` :          Stop both projects
+-  `make stop-backend`:   Stop Spring Boot project
+-  `make stop-frontend`:  Stop Angular project
+-  `make start-frontend`: Start Angular project for development
+-  `make start-backend`:  Start Spring Boot project for development
+-  `make help`:           Show this help message
+
+#### ! Contributions are always welcome and feel free to give feedback and reach me out when error occur at any aspect. !
